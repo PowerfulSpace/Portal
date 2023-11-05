@@ -7,7 +7,6 @@ namespace PS.Portal.DAL.Data
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
 
         public DbSet<Movie> Movies { get; set; } = null!;
