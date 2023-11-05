@@ -15,4 +15,8 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.9" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\PS.Portal.DAL\PS.Portal.DAL.csproj" />
+	</ItemGroup>
+
 </Project>
