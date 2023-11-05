@@ -1,7 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using PS.Portal.DAL.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<ApplicationContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
