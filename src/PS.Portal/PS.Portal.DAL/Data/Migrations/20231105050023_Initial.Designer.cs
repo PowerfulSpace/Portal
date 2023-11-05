@@ -12,7 +12,7 @@ using PS.Portal.DAL.Data;
 namespace PS.Portal.DAL.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231105041536_Initial")]
+    [Migration("20231105050023_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

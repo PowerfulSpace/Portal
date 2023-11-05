@@ -17,5 +17,6 @@ namespace PS.Portal.Domain.Entities
         [Required]
         [Range(0, 10)]
         public double Rating { get; set; }
+
     }
 }
