@@ -19,7 +19,11 @@
         <form asp-action="Index">
             <span class="btn-group">
                 <input class="form-control" name="searchText" type="text" value="@ViewBag.SearchText" placeholder="Search key" />
-                <input class="btn btn-sm btn-danger p-1 ml-2 " type="submit" value="Search" style="border-radius:10px;background-color:#87CEFA;border-color: black;color:black" />
+
+                <span class="btn-group btn-danger ml-2" style="border-radius:10px;background-color:#87CEFA;color:black;">
+                    <i class="bi bi-search p-lg-2 align-self-center" aria-hidden="true"></i>
+                    <input class="btn btn-sm font-weight-bold" type="submit" value="Search" />
+                </span>
             </span>
         </form>
     </div>
