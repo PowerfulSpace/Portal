@@ -20,3 +20,50 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Стиль главной страницы Home/Index*/
+.IndexDiv {
+    position: fixed;
+    background: linear-gradient(to right,#ffffff,#DCDCDC);
+    left: 0;
+    min-height: 87.8%;
+    min-width: 100%;
+}
+
+.CenteredContainer {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+}
+
+    .CenteredContainer form {
+        background: linear-gradient(to right,#9ef1ee,#9ef1ee);
+        padding: 3em;
+        border-radius: 20px;
+    }
+
+        .CenteredContainer form:hover {
+            background: linear-gradient(to top,#ffffff,#dee1e1);
+            /*            border: solid 0.3em;
+            border-color: #c3c3c3;*/
+        }
+
+        .CenteredContainer form a {
+            text-decoration: none;
+            color: black;
+            font-size: 15px;
+        }
+
+            .CenteredContainer form a:hover {
+                text-shadow: 4px 4px 12px blue;
+            }
+
+        .CenteredContainer form input {
+            border-radius: 20px;
+        }
+
+    .CenteredContainer a, input:focus, submit:focus, botton:focus {
+        outline: none;
+        margin: 2px;
+    }
