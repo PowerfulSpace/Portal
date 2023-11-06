@@ -8,18 +8,18 @@
     .page-item.active .page-link {
         z-index: 3;
         color: #fff;
-        background-color: red !important;
-        border-color: red;
+        background-color: #87CEFA !important;
+        border-color: black;
     }
 </style>
 
-<div class="container btn-group" style="background-color:black; border-radius:10px; height:45px;">
+<div class="container btn-group" style="background-color:#696969; border-radius:10px; height:45px;">
 
     <div class="col-4 p-0 justify-content-end mt-1">
         <form asp-action="Index">
             <span class="btn-group">
                 <input class="form-control" name="searchText" type="text" value="@ViewBag.SearchText" placeholder="Search key" />
-                <input class="btn btn-sm btn-danger p-1 ml-2 " type="submit" value="Search" style="border-radius:10px;" />
+                <input class="btn btn-sm btn-danger p-1 ml-2 " type="submit" value="Search" style="border-radius:10px;background-color:#87CEFA;border-color: black;color:black" />
             </span>
         </form>
     </div>
