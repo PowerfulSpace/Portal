@@ -1,4 +1,7 @@
-﻿namespace PS.Portal.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace PS.Portal.Domain.Entities
 {
     public class Genre
     {

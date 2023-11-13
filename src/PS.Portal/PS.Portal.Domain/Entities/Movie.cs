@@ -54,17 +54,9 @@ namespace PS.Portal.Domain.Entities
         public Guid? ProducerId { get; set; }
         public virtual Producer? Producer { get; set; }
 
+        public virtual List<Actor>? Actors { get; set; }
 
-        [ForeignKey("Actors")]
-        [Display(Name = "Actors")]
-        public Guid? ActorsId { get; set; }
-        public virtual List<Actor>? Actors { get; set; } = new List<Actor>();
-
-
-        [ForeignKey("Genres")]
-        [Display(Name = "Genres")]
-        public Guid? GenresId { get; set; }
-        public virtual List<Genre>? Genres { get; set; } = new List<Genre>();
+        public virtual List<Genre>? Genres { get; set; }
 
     }
 }

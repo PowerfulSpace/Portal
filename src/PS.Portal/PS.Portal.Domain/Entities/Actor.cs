@@ -27,5 +27,6 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "ActorPhoto")]
         [NotMapped]
         public IFormFile ActorPhoto { get; set; } = null!;
+
     }
 }
