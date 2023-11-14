@@ -28,5 +28,7 @@ namespace PS.Portal.Domain.Entities
         [NotMapped]
         public IFormFile ActorPhoto { get; set; } = null!;
 
+        public virtual List<Movie>? Movies { get; set; }
+
     }
 }

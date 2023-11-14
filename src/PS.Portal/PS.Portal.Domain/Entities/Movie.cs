@@ -49,10 +49,10 @@ namespace PS.Portal.Domain.Entities
 
 
 
-        [ForeignKey("Producer")]
+        [ForeignKey("CurrentProducer")]
         [Display(Name = "Producer")]
         public Guid? ProducerId { get; set; }
-        public virtual Producer? Producer { get; set; }
+        public virtual Producer? CurrentProducer { get; set; }
 
         public virtual List<Actor>? Actors { get; set; }
 
