@@ -8,7 +8,7 @@ using PS.Portal.DAL.Data;
 
 #nullable disable
 
-namespace PS.Portal.DAL.Data.Migrations
+namespace PS.Portal.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -386,6 +386,30 @@ namespace PS.Portal.DAL.Data.Migrations
                     b.ToTable("Producers");
                 });
 
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("ActorMovie", b =>
                 {
                     b.HasOne("PS.Portal.Domain.Entities.Actor", null)
@@ -474,6 +498,20 @@ namespace PS.Portal.DAL.Data.Migrations
                         .HasForeignKey("ProducerId");
 
                     b.Navigation("CurrentProducer");
+                });
+
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("PS.Portal.Domain.Entities.Movie", "Movie")
+                        .WithMany("Reviews")
+                        .HasForeignKey("MovieId");
+
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Movie", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Producer", b =>
