@@ -22,7 +22,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Definitions\Base\" />
 	  <Folder Include="Definitions\Common\" />
 	  <Folder Include="Definitions\DbContext\" />
 	  <Folder Include="Definitions\DependencyInjection\" />
