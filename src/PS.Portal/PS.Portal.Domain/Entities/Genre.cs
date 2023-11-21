@@ -6,6 +6,6 @@
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
 
-        public virtual List<Movie>? Movies { get; set; }
+        public List<Movie> Movies { get; set; } = new List<Movie>();
     }
 }

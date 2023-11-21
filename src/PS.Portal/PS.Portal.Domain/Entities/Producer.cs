@@ -27,8 +27,6 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "ProducerPhoto")]
         [NotMapped]
         public IFormFile ProducerPhoto { get; set; } = null!;
-
-        [InverseProperty("CurrentProducer")]
-        public virtual List<Movie>? Movies { get; set; }
+        public List<Movie> Movies { get; set; } = new List<Movie>();
     }
 }
