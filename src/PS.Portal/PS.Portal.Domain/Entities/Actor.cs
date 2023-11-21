@@ -7,18 +7,8 @@ namespace PS.Portal.Domain.Entities
     public class Actor
     {
         public Guid Id { get; set; }
-
-        [Required]
-        [StringLength(25)]
         public string FirstName { get; set; } = null!;
-
-        [Required]
-        [StringLength(25)]
-        public string LastName { get; set; } = null!;
-
-        [Required]
-        [StringLength(25)]
-        public string Country { get; set; } = null!;
+        public string LastName { get; set; } = null!;   
 
         public DateTime BirthDate { get; set; }
 
@@ -27,6 +17,12 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "ActorPhoto")]
         [NotMapped]
         public IFormFile ActorPhoto { get; set; } = null!;
+
+
+        [Display(Name = "Country")]
+        public Guid? CountryId { get; set; }
+        public Country? Country { get; set; }
+
 
         public List<Movie> Movies { get; set; } = new List<Movie>();
 

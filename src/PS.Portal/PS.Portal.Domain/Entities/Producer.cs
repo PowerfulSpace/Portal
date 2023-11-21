@@ -16,10 +16,6 @@ namespace PS.Portal.Domain.Entities
         [StringLength(25)]
         public string LastName { get; set; } = null!;
 
-        [Required]
-        [StringLength(25)]
-        public string Country { get; set; } = null!;
-
         public DateTime BirthDate { get; set; }
 
         public string PhotoUrl { get; set; } = "noimage.png";
@@ -27,6 +23,13 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "ProducerPhoto")]
         [NotMapped]
         public IFormFile ProducerPhoto { get; set; } = null!;
+
+
+        [Display(Name = "Country")]
+        public Guid? CountryId { get; set; }
+        public Country? Country { get; set; }
+
+
         public List<Movie> Movies { get; set; } = new List<Movie>();
     }
 }

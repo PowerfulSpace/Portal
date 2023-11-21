@@ -8,7 +8,7 @@ using PS.Portal.DAL.Data;
 
 #nullable disable
 
-namespace PS.Portal.DAL.Migrations
+namespace PS.Portal.DAL.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -263,10 +263,11 @@ namespace PS.Portal.DAL.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CountryId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -284,7 +285,26 @@ namespace PS.Portal.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId1");
+
                     b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Genre", b =>
@@ -295,11 +315,13 @@ namespace PS.Portal.DAL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -315,10 +337,11 @@ namespace PS.Portal.DAL.Migrations
                     b.Property<int>("AcceptableAge")
                         .HasColumnType("int");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CountryId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -348,6 +371,8 @@ namespace PS.Portal.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId1");
+
                     b.HasIndex("ProducerId");
 
                     b.ToTable("Movies");
@@ -362,10 +387,11 @@ namespace PS.Portal.DAL.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CountryId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -383,6 +409,8 @@ namespace PS.Portal.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId1");
+
                     b.ToTable("Producers");
                 });
 
@@ -394,7 +422,8 @@ namespace PS.Portal.DAL.Migrations
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<Guid?>("MovieId")
                         .HasColumnType("uniqueidentifier");
@@ -491,13 +520,37 @@ namespace PS.Portal.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Actor", b =>
+                {
+                    b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
+                        .WithMany("Actors")
+                        .HasForeignKey("CountryId1");
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("PS.Portal.Domain.Entities.Movie", b =>
                 {
+                    b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
+                        .WithMany("Movies")
+                        .HasForeignKey("CountryId1");
+
                     b.HasOne("PS.Portal.Domain.Entities.Producer", "CurrentProducer")
                         .WithMany("Movies")
                         .HasForeignKey("ProducerId");
 
+                    b.Navigation("Country");
+
                     b.Navigation("CurrentProducer");
+                });
+
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Producer", b =>
+                {
+                    b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
+                        .WithMany("Producers")
+                        .HasForeignKey("CountryId1");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Review", b =>
@@ -507,6 +560,15 @@ namespace PS.Portal.DAL.Migrations
                         .HasForeignKey("MovieId");
 
                     b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("PS.Portal.Domain.Entities.Country", b =>
+                {
+                    b.Navigation("Actors");
+
+                    b.Navigation("Movies");
+
+                    b.Navigation("Producers");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Movie", b =>

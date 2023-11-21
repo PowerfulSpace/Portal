@@ -12,6 +12,9 @@ namespace PS.Portal.DAL.Data.Configurations
                .HasOne(x => x.Movie)
                .WithMany(x => x.Reviews)
                .HasForeignKey(x => x.MovieId);
+
+            builder.Property(x => x.Login).HasMaxLength(25);
+            builder.Property(x => x.Text).IsRequired();
         }
     }
 }

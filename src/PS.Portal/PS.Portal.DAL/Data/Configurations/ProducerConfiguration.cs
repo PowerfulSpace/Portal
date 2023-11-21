@@ -12,6 +12,11 @@ namespace PS.Portal.DAL.Data.Configurations
               .HasMany(x => x.Movies)
               .WithOne(x => x.CurrentProducer)
               .HasForeignKey(x => x.ProducerId);
+
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(25);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(25);
+            builder.Property(x => x.BirthDate).IsRequired();
+            builder.Property(x => x.PhotoUrl).IsRequired();
         }
     }
 }

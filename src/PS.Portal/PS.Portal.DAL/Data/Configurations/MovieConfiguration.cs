@@ -25,6 +25,14 @@ namespace PS.Portal.DAL.Data.Configurations
             builder
                .HasMany(x => x.Genres)
                .WithMany(x => x.Movies);
+
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(25);
+            builder.Property(x => x.Description).IsRequired().HasMaxLength(75);
+            builder.Property(x => x.Rating).IsRequired();
+            builder.Property(x => x.YearShown).IsRequired();
+            builder.Property(x => x.FilmDuration).IsRequired();
+            builder.Property(x => x.AcceptableAge).IsRequired();
+            builder.Property(x => x.PhotoUrl).IsRequired();
         }
     }
 }

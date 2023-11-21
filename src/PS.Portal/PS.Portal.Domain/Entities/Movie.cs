@@ -8,34 +8,21 @@ namespace PS.Portal.Domain.Entities
     {
         public Guid Id { get; set; }
 
-        [Required]
-        [StringLength(25)]
         [Display(Name = "Name")]
         public string Name { get; set; } = null!;
 
-        [Required]
-        [StringLength(75)]
         [Display(Name = "Description")]
         public string Description { get; set; } = null!;
 
-        [Required]
         [Range(0, 10)]
         [Display(Name = "Rating")]
         public double Rating { get; set; }
 
-        [Required]
         [Display(Name = "YearShown")]
         public DateTime YearShown { get; set; }
 
-       
-        [Required]
         [Display(Name = "FilmDuration")]
         public int FilmDuration { get; set; }
-
-        [Required]
-        [StringLength(25)]
-        [Display(Name = "Country")]
-        public string Country { get; set; } = null!;
 
         [Required]
         public int AcceptableAge { get; set; }
@@ -46,6 +33,11 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "MoviePhoto")]
         [NotMapped]
         public IFormFile MoviePhoto { get; set; } = null!;
+
+
+        [Display(Name = "Country")]
+        public Guid? CountryId { get; set; }
+        public Country? Country { get; set; }
 
 
         [Display(Name = "Producer")]
