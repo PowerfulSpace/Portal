@@ -21,11 +21,4 @@
 	  <ProjectReference Include="..\PS.Portal.DAL\PS.Portal.DAL.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Definitions\Common\" />
-	  <Folder Include="Definitions\DbContext\" />
-	  <Folder Include="Definitions\DependencyInjection\" />
-	  <Folder Include="Definitions\Localization\" />
-	</ItemGroup>
-
 </Project>
