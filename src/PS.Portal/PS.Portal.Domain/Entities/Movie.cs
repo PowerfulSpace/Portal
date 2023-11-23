@@ -24,8 +24,8 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "FilmDuration")]
         public int FilmDuration { get; set; }
 
-        [Required]
         public int AcceptableAge { get; set; }
+        public bool IsReaded { get; set; }
 
 
         public string PhotoUrl { get; set; } = "noimage.png";
