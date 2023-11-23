@@ -26,15 +26,21 @@ namespace PS.Portal.Web.Controllers
 
             var pager = new PagerModel(movies.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
+            pager.SearchText = searchText;
 
-
-            ViewData["sortModel"] = sortModel;
-            ViewBag.SearchText = searchText;
             ViewBag.Pager = pager;
 
+            ViewData["SortModel"] = sortModel;
+            ViewBag.SearchText = searchText;
 
+            TempData["SearchText"] = searchText;
+            TempData.Keep("SearchText");
+
+            TempData["PageSize"] = pageSize;
+            TempData.Keep("PageSize");
 
             TempData["CurrentPage"] = currentPage;
+            TempData.Keep("CurrentPage");
 
             return View(movies);
         }
