@@ -69,6 +69,8 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("PageSize");
+            TempData.Keep("SearchText");
 
             if (movie != null)
             {
@@ -84,6 +86,8 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("PageSize");
+            TempData.Keep("SearchText");
 
             if (movie != null)
             {
@@ -109,7 +113,13 @@ namespace PS.Portal.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+            var pageSize = 5;
+            if (TempData["PageSize"] != null)
+            {
+                pageSize = (int)TempData["PageSize"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
         [HttpGet]
@@ -117,6 +127,8 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _context.GetItemAsync(id);
             TempData.Keep("CurrentPage");
+            TempData.Keep("PageSize");
+            TempData.Keep("SearchText");
 
             if (movie != null)
             {
@@ -141,7 +153,13 @@ namespace PS.Portal.Web.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+            var pageSize = 5;
+            if (TempData["PageSize"] != null)
+            {
+                pageSize = (int)TempData["PageSize"]!;
+            }
+
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
     }
 }
