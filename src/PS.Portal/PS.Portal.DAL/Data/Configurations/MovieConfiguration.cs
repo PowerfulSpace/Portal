@@ -34,6 +34,7 @@ namespace PS.Portal.DAL.Data.Configurations
             builder.Property(x => x.AcceptableAge).IsRequired();
             builder.Property(x => x.PhotoUrl).IsRequired();
             builder.Property(x => x.IsReaded).IsRequired();
+            builder.Property(x => x.PartFilm);
         }
     }
 }

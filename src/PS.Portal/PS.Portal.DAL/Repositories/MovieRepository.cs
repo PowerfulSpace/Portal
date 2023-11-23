@@ -67,6 +67,25 @@ namespace PS.Portal.DAL.Repositories
         }
 
 
+        public bool IsItemNameExists(string name)
+        {
+            int ct = _context.Movies.Where(x => x.Name.ToLower() == name.ToLower()).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+        public bool IsItemNameExists(string name, Guid id)
+        {
+            int ct = _context.Movies.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+
+
+
         private async Task<List<Movie>> DoSortAsync(List<Movie> items, string sortProperty, SortOrder order)
         {
             if (sortProperty.ToLower() == "name")

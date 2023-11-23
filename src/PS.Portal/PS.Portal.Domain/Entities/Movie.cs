@@ -26,6 +26,7 @@ namespace PS.Portal.Domain.Entities
 
         public int AcceptableAge { get; set; }
         public bool IsReaded { get; set; }
+        public int? PartFilm { get; set; }
 
 
         public string PhotoUrl { get; set; } = "noimage.png";
