@@ -23,12 +23,28 @@ namespace PS.Portal.DAL.Repositories
             if (searchText != "" && searchText != null)
             {
                 items = _context.Movies
-                    .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
+                    .Include(x => x.Country)
+                    .Include(x => x.CurrentProducer)
+                    .Include(x => x.Actors)
+                    .Include(x => x.Genres)
+                    .Include(x => x.Reviews)
+                        .Where(x => 
+                        x.Name.Contains(searchText) ||
+                        x.Description.Contains(searchText) ||
+                        x.Country!.Name.Contains(searchText) ||
+                        x.CurrentProducer!.FirstName.Contains(searchText) ||
+                        x.CurrentProducer!.LastName.Contains(searchText))
                     .ToList();
             }
             else
             {
-                items = _context.Movies.ToList();
+                items = _context.Movies
+                    .Include(x => x.Country)
+                    .Include(x => x.CurrentProducer)
+                    .Include(x => x.Actors)
+                    .Include(x => x.Genres)
+                    .Include(x => x.Reviews)
+                        .ToList();
             }
 
             items = await DoSortAsync(items, sortProperty, order);
@@ -40,8 +56,21 @@ namespace PS.Portal.DAL.Repositories
 
         public async Task<Movie> GetItemAsync(Guid id)
         {
-            return await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _context.Movies
+                .Include(x => x.Country)
+                .Include(x => x.CurrentProducer)
+                .Include(x => x.Actors)
+                .Include(x => x.Genres)
+                .Include(x => x.Reviews)
+                    .FirstOrDefaultAsync(x => x.Id == id);
+
+            item!.BreifPhotoName = GetBriefPhotoName(item.PhotoUrl);
+
+            return item;
         }
+
+        public async Task<Movie> GetItem_NoDownload_FG_Async(Guid id) => _context.Movies.FirstOrDefault(x => x.Id == id);
+
 
         public async Task<Movie> GreateAsync(Movie item)
         {
@@ -60,6 +89,8 @@ namespace PS.Portal.DAL.Repositories
 
         public async Task<Movie> DeleteAsync(Movie item)
         {
+            item = await GetItem_NoDownload_FG_Async(item.Id);
+
             _context.Movies.Attach(item);
             _context.Entry(item).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
@@ -109,7 +140,65 @@ namespace PS.Portal.DAL.Repositories
                 else
                     items = items.OrderByDescending(x => x.Rating).ToList();
             }
+            else if (sortProperty.ToLower() == "yearShown")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.YearShown).ToList();
+                else
+                    items = items.OrderByDescending(x => x.YearShown).ToList();
+            }
+            else if (sortProperty.ToLower() == "filmDuration")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.FilmDuration).ToList();
+                else
+                    items = items.OrderByDescending(x => x.FilmDuration).ToList();
+            }
+            else if (sortProperty.ToLower() == "acceptableAge")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.AcceptableAge).ToList();
+                else
+                    items = items.OrderByDescending(x => x.AcceptableAge).ToList();
+            }
+            else if (sortProperty.ToLower() == "isReaded")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.IsReaded).ToList();
+                else
+                    items = items.OrderByDescending(x => x.IsReaded).ToList();
+            }
+            else if (sortProperty.ToLower() == "partFilm")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.PartFilm).ToList();
+                else
+                    items = items.OrderByDescending(x => x.PartFilm).ToList();
+            }
+            else if (sortProperty.ToLower() == "country")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Country?.Name).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Country?.Name).ToList();
+            }
+            else if (sortProperty.ToLower() == "producer")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.CurrentProducer?.LastName).ToList();
+                else
+                    items = items.OrderByDescending(x => x.CurrentProducer?.LastName).ToList();
+            }
             return items;
+        }
+
+        private string GetBriefPhotoName(string fileName)
+        {
+            if (fileName == null || fileName == "")
+                return "";
+
+            string[] words = fileName.Split('_');
+            return words[words.Length - 1];
         }
     }
 }

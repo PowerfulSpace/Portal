@@ -266,9 +266,6 @@ namespace PS.Portal.DAL.Data.Migrations
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CountryId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -285,26 +282,25 @@ namespace PS.Portal.DAL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId1");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Country", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("PS.Portal.Domain.Entities.Genre", b =>
@@ -340,9 +336,6 @@ namespace PS.Portal.DAL.Data.Migrations
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CountryId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(75)
@@ -377,7 +370,7 @@ namespace PS.Portal.DAL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId1");
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("ProducerId");
 
@@ -396,9 +389,6 @@ namespace PS.Portal.DAL.Data.Migrations
                     b.Property<Guid?>("CountryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CountryId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -415,7 +405,7 @@ namespace PS.Portal.DAL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId1");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Producers");
                 });
@@ -530,7 +520,7 @@ namespace PS.Portal.DAL.Data.Migrations
                 {
                     b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
                         .WithMany("Actors")
-                        .HasForeignKey("CountryId1");
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });
@@ -539,7 +529,7 @@ namespace PS.Portal.DAL.Data.Migrations
                 {
                     b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
                         .WithMany("Movies")
-                        .HasForeignKey("CountryId1");
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("PS.Portal.Domain.Entities.Producer", "CurrentProducer")
                         .WithMany("Movies")
@@ -554,7 +544,7 @@ namespace PS.Portal.DAL.Data.Migrations
                 {
                     b.HasOne("PS.Portal.Domain.Entities.Country", "Country")
                         .WithMany("Producers")
-                        .HasForeignKey("CountryId1");
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });

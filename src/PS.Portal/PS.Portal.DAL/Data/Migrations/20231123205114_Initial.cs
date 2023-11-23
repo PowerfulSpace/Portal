@@ -51,16 +51,15 @@ namespace PS.Portal.DAL.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Country",
+                name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Country", x => x.Id);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,16 +190,15 @@ namespace PS.Portal.DAL.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CountryId1 = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Actors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Actors_Country_CountryId1",
-                        column: x => x.CountryId1,
-                        principalTable: "Country",
+                        name: "FK_Actors_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
                         principalColumn: "Id");
                 });
 
@@ -213,16 +211,15 @@ namespace PS.Portal.DAL.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CountryId1 = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Producers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Producers_Country_CountryId1",
-                        column: x => x.CountryId1,
-                        principalTable: "Country",
+                        name: "FK_Producers_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
                         principalColumn: "Id");
                 });
 
@@ -237,18 +234,19 @@ namespace PS.Portal.DAL.Data.Migrations
                     YearShown = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FilmDuration = table.Column<int>(type: "int", nullable: false),
                     AcceptableAge = table.Column<int>(type: "int", nullable: false),
+                    IsReaded = table.Column<bool>(type: "bit", nullable: false),
+                    PartFilm = table.Column<int>(type: "int", nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CountryId1 = table.Column<int>(type: "int", nullable: true),
                     ProducerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Movies_Country_CountryId1",
-                        column: x => x.CountryId1,
-                        principalTable: "Country",
+                        name: "FK_Movies_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Movies_Producers_ProducerId",
@@ -330,9 +328,9 @@ namespace PS.Portal.DAL.Data.Migrations
                 column: "MoviesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Actors_CountryId1",
+                name: "IX_Actors_CountryId",
                 table: "Actors",
-                column: "CountryId1");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -379,9 +377,9 @@ namespace PS.Portal.DAL.Data.Migrations
                 column: "MoviesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_CountryId1",
+                name: "IX_Movies_CountryId",
                 table: "Movies",
-                column: "CountryId1");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_ProducerId",
@@ -389,9 +387,9 @@ namespace PS.Portal.DAL.Data.Migrations
                 column: "ProducerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Producers_CountryId1",
+                name: "IX_Producers_CountryId",
                 table: "Producers",
-                column: "CountryId1");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MovieId",
@@ -445,7 +443,7 @@ namespace PS.Portal.DAL.Data.Migrations
                 name: "Producers");
 
             migrationBuilder.DropTable(
-                name: "Country");
+                name: "Countries");
         }
     }
 }

@@ -35,6 +35,9 @@ namespace PS.Portal.Domain.Entities
         [NotMapped]
         public IFormFile MoviePhoto { get; set; } = null!;
 
+        [NotMapped]
+        public string BreifPhotoName { get; set; } = null!;
+
 
         [Display(Name = "Country")]
         public Guid? CountryId { get; set; }
