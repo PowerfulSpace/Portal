@@ -152,7 +152,7 @@ namespace PS.Portal.Web.Controllers
 
                 if (errMessage == "")
                 {
-                    country = await _countryRepository.GreateAsync(country);
+                    country = await _countryRepository.EditAsync(country);
                     bolret = true;
                 }
 

@@ -151,7 +151,7 @@ namespace PS.Portal.Web.Controllers
 
                 if (errMessage == "")
                 {
-                    genre = await _genreRepository.GreateAsync(genre);
+                    genre = await _genreRepository.EditAsync(genre);
                     bolret = true;
                 }
 

@@ -65,7 +65,7 @@ namespace PS.Portal.Web.Controllers
             try
             {
                 if (review.Text.Length < 3 || review.Text == null)
-                    errMessage = "Review Text Must be atleast 4 Characters";
+                    errMessage = "Review Text Must be atleast 3 Characters";
 
                 if (errMessage == "")
                 {
@@ -142,11 +142,11 @@ namespace PS.Portal.Web.Controllers
             try
             {
                 if (review.Text.Length < 3 || review.Text == null)
-                    errMessage = "Review Text Must be atleast 4 Characters";
+                    errMessage = "Review Text Must be atleast 3 Characters";
 
                 if (errMessage == "")
                 {
-                    review = await _reviewRepository.GreateAsync(review);
+                    review = await _reviewRepository.EditAsync(review);
                     bolret = true;
                 }
 
