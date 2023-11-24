@@ -238,31 +238,7 @@ namespace PS.Portal.Web.Controllers
 
         private void PopulateViewBags()
         {
-            ViewBag.Genres = GetGenres();
             ViewBag.Movies = GetMovies();
-        }
-
-
-        private async Task<List<SelectListItem>> GetGenres()
-        {
-            List<SelectListItem> listIItems = new List<SelectListItem>();
-
-            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
-
-            listIItems = items.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            }).ToList();
-
-            SelectListItem defItem = new SelectListItem()
-            {
-                Text = "---Select Genre---",
-                Value = ""
-            };
-
-            listIItems.Insert(0, defItem);
-            return listIItems;
         }
 
         private async Task<List<SelectListItem>> GetMovies()
