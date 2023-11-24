@@ -8,11 +8,11 @@ namespace PS.Portal.Web.Controllers
     public class MovieController : Controller
     {
 
-        private readonly IMovie _context;
+        private readonly IMovie _movieRepository;
 
-        public MovieController(IMovie context)
+        public MovieController(IMovie movieRepository)
         {
-            _context = context;
+            _movieRepository = movieRepository;
         }
         public async Task<IActionResult> Index(string sortExpression = "", string searchText = "", int currentPage = 1, int pageSize = 5)
         {
@@ -22,7 +22,7 @@ namespace PS.Portal.Web.Controllers
             sortModel.AddColumn("rating");
             sortModel.ApplySort(sortExpression);
 
-            PaginatedList<Movie> movies = await _context.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
+            PaginatedList<Movie> movies = await _movieRepository.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
 
             var pager = new PagerModel(movies.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
@@ -57,7 +57,7 @@ namespace PS.Portal.Web.Controllers
         {
             try
             {
-                movie = await _context.GreateAsync(movie);
+                movie = await _movieRepository.GreateAsync(movie);
             }
             catch { }
 
@@ -67,7 +67,7 @@ namespace PS.Portal.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var movie = await _context.GetItemAsync(id);
+            var movie = await _movieRepository.GetItemAsync(id);
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
             TempData.Keep("SearchText");
@@ -84,7 +84,7 @@ namespace PS.Portal.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var movie = await _context.GetItemAsync(id);
+            var movie = await _movieRepository.GetItemAsync(id);
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
             TempData.Keep("SearchText");
@@ -103,7 +103,7 @@ namespace PS.Portal.Web.Controllers
         {
             try
             {
-                movie = await _context.EditAsync(movie);
+                movie = await _movieRepository.EditAsync(movie);
             }
             catch { }
 
@@ -125,7 +125,7 @@ namespace PS.Portal.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var movie = await _context.GetItemAsync(id);
+            var movie = await _movieRepository.GetItemAsync(id);
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
             TempData.Keep("SearchText");
@@ -143,7 +143,7 @@ namespace PS.Portal.Web.Controllers
         {
             try
             {
-                movie = await _context.DeleteAsync(movie);
+                movie = await _movieRepository.DeleteAsync(movie);
             }
             catch { }
 
