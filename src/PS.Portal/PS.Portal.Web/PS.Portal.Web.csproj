@@ -21,4 +21,12 @@
 	  <ProjectReference Include="..\PS.Portal.DAL\PS.Portal.DAL.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Views\Actor\" />
+	  <Folder Include="Views\Country\" />
+	  <Folder Include="Views\Genre\" />
+	  <Folder Include="Views\Producer\" />
+	  <Folder Include="Views\Review\" />
+	</ItemGroup>
+
 </Project>
