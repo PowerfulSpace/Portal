@@ -13,7 +13,7 @@ namespace PS.Portal.DAL.Data.Configurations
               .WithMany(x => x.Genres);
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(25);
-            builder.Property(x => x.Description).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Description).IsRequired();
         }
     }
 }
