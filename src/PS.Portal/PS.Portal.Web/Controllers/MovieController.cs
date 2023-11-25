@@ -91,7 +91,7 @@ namespace PS.Portal.Web.Controllers
                 if (movie.Description.Length < 2 || movie.Description == null)
                     errMessage = "Movie Description Must be atleast 2 Characters";
 
-                if (_genreRepository.IsItemNameExists(movie.Name) == true)
+                if (_movieRepository.IsItemNameExists(movie.Name) == true)
                     errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
 
                 if (errMessage == "")
@@ -176,7 +176,7 @@ namespace PS.Portal.Web.Controllers
                 if (movie.Description.Length < 2 || movie.Description == null)
                     errMessage = "Movie Description Must be atleast 2 Characters";
 
-                if (_genreRepository.IsItemNameExists(movie.Name, movie.Id) == true)
+                if (_movieRepository.IsItemNameExists(movie.Name, movie.Id) == true)
                     errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
 
                 if (errMessage == "")
