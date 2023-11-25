@@ -1,0 +1,29 @@
+﻿@model Review
+
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Details";
+}
+
+<h1>@currentModel Details</h1>
+
+<form>
+    <div class="col-4">
+        <div class="form-group">
+            <label asp-for="Login" class="control-label"></label>
+            <input asp-for="Login" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Text" class="control-label"></label>
+            <input asp-for="Text" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="MovieId" class="control-label"></label>
+            <input asp-for="@Model.Movie.Name" class="form-control" readonly />
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">Back</a>
+        </div>
+    </div>
+</form>

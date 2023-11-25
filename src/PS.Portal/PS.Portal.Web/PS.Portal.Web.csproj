@@ -25,7 +25,6 @@
 	  <Folder Include="Views\Actor\" />
 	  <Folder Include="Views\Country\" />
 	  <Folder Include="Views\Producer\" />
-	  <Folder Include="Views\Review\" />
 	</ItemGroup>
 
 </Project>
