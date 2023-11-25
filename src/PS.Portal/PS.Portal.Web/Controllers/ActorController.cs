@@ -12,15 +12,18 @@ namespace PS.Portal.Web.Controllers
         private readonly IWebHostEnvironment _webHost;
         private readonly IMovie _movieRepository;
         private readonly ICountry _countryRepository;
+        private readonly IActor _actorRepository;
 
         public ActorController(
             IWebHostEnvironment webHost,
             IMovie movieRepository,
-            ICountry countryRepository)
+            ICountry countryRepository,
+            IActor actorRepository)
         {
             _webHost = webHost;
             _movieRepository = movieRepository;
             _countryRepository = countryRepository;
+            _actorRepository = actorRepository;
         }
         public async Task<IActionResult> Index(string sortExpression = "", string searchText = "", int currentPage = 1, int pageSize = 5)
         {
@@ -260,10 +263,7 @@ namespace PS.Portal.Web.Controllers
         private void PopulateViewBags()
         {
             ViewBag.Genries = GetCountries();
-            ViewBag.Reviews = GetReviews();
-            ViewBag.Genres = GetGenres();
             ViewBag.Movies = GetMovies();
-            ViewBag.Producers = GetProducers();
         }
 
         private async Task<List<SelectListItem>> GetCountries()
@@ -288,50 +288,6 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetReviews()
-        {
-            List<SelectListItem> listIItems = new List<SelectListItem>();
-
-            PaginatedList<Review> items = await _reviewRepository.GetItemsAsync("login", SortOrder.Ascending, "", 1, 1000);
-
-            listIItems = items.Select(x => new SelectListItem()
-            {
-                Text = x.Login,
-                Value = x.Id.ToString()
-            }).ToList();
-
-            SelectListItem defItem = new SelectListItem()
-            {
-                Text = "---Select Review---",
-                Value = ""
-            };
-
-            listIItems.Insert(0, defItem);
-            return listIItems;
-        }
-
-        private async Task<List<SelectListItem>> GetGenres()
-        {
-            List<SelectListItem> listIItems = new List<SelectListItem>();
-
-            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
-
-            listIItems = items.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            }).ToList();
-
-            SelectListItem defItem = new SelectListItem()
-            {
-                Text = "---Select Genre---",
-                Value = ""
-            };
-
-            listIItems.Insert(0, defItem);
-            return listIItems;
-        }
-
         private async Task<List<SelectListItem>> GetMovies()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
@@ -347,28 +303,6 @@ namespace PS.Portal.Web.Controllers
             SelectListItem defItem = new SelectListItem()
             {
                 Text = "---Select Movie---",
-                Value = ""
-            };
-
-            listIItems.Insert(0, defItem);
-            return listIItems;
-        }
-
-        private async Task<List<SelectListItem>> GetProducers()
-        {
-            List<SelectListItem> listIItems = new List<SelectListItem>();
-
-            PaginatedList<Producer> items = await _producerRepository.GetItemsAsync("lastName", SortOrder.Ascending, "", 1, 1000);
-
-            listIItems = items.Select(x => new SelectListItem()
-            {
-                Text = x.LastName,
-                Value = x.Id.ToString()
-            }).ToList();
-
-            SelectListItem defItem = new SelectListItem()
-            {
-                Text = "---Select Producer---",
                 Value = ""
             };
 
