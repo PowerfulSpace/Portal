@@ -22,7 +22,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Actor\" />
 	  <Folder Include="Views\Producer\" />
 	</ItemGroup>
 

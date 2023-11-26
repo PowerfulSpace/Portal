@@ -262,7 +262,7 @@ namespace PS.Portal.Web.Controllers
 
         private async Task PopulateViewBagsAsync()
         {
-            ViewBag.Genries = await GetCountriesAsync();
+            ViewBag.Countries = await GetCountriesAsync();
             ViewBag.Movies = await GetMoviesAsync();
         }
 
