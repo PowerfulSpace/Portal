@@ -21,6 +21,37 @@
 
                 @if (SignInManager.IsSignedIn(User))
                 {
+
+                    <li class="dropdown nav-item pr-2">
+                        <a class="nav-link dropdown-toggle @menuTextColor" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Master
+                        </a>
+                        <ul class="dropdown-menu" style="background:linear-gradient(to right,#ffffff,#A9A9A9)">
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Genre" asp-action="Index">Genres</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Review" asp-action="Index">Reviews</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Actor" asp-action="Index">Actors</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Country" asp-action="Index">Countries</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @menuTextColor" asp-area="" asp-controller="Producer" asp-action="Index">Producers</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                }
+
+               @*  @if (SignInManager.IsSignedIn(User))
+                {
                     <li class="nav-item">
                         <a class="nav-link @menuTextColor" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a>
                     </li>
@@ -40,7 +71,7 @@
                         <a class="nav-link @menuTextColor" asp-area="" asp-controller="Producer" asp-action="Index">Producers</a>
                     </li>
                    
-                }
+                } *@
 
                 <li class="nav-item">
                     <a class="nav-link @menuTextColor" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
