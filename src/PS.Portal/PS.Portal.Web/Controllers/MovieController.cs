@@ -76,7 +76,7 @@ namespace PS.Portal.Web.Controllers
         public IActionResult Create()
         {
             var movie = new Movie();
-            PopulateViewBags();
+            PopulateViewBagsAsync().GetAwaiter().GetResult();
             return View(movie);
         }
 
@@ -116,7 +116,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(movie);
             }
@@ -150,7 +150,7 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _movieRepository.GetItemAsync(id);
 
-            PopulateViewBags();
+            await PopulateViewBagsAsync();
 
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
@@ -217,7 +217,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(movie);
             }
@@ -275,16 +275,16 @@ namespace PS.Portal.Web.Controllers
             return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
-        private void PopulateViewBags()
+        private async Task PopulateViewBagsAsync()
         {
-            ViewBag.Countries = GetCountries();
-            ViewBag.Reviews = GetReviews();
-            ViewBag.Genres = GetGenres();
-            ViewBag.Actors = GetActors();
-            ViewBag.Producers = GetProducers();
+            ViewBag.Countries = await GetCountriesAsync();
+            ViewBag.Reviews = await GetReviewsAsync();
+            ViewBag.Genres = await GetGenresAsync();
+            ViewBag.Actors = await GetActorsAsync();
+            ViewBag.Producers = await GetProducersAsync();
         }
 
-        private async Task<List<SelectListItem>> GetCountries()
+        private async Task<List<SelectListItem>> GetCountriesAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
@@ -306,7 +306,7 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetReviews()
+        private async Task<List<SelectListItem>> GetReviewsAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
@@ -328,7 +328,7 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetGenres()
+        private async Task<List<SelectListItem>> GetGenresAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
@@ -350,7 +350,7 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetActors()
+        private async Task<List<SelectListItem>> GetActorsAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
@@ -372,7 +372,7 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetProducers()
+        private async Task<List<SelectListItem>> GetProducersAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 

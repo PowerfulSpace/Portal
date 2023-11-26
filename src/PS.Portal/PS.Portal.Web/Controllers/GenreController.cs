@@ -51,7 +51,7 @@ namespace PS.Portal.Web.Controllers
         public IActionResult Create()
         {
             var genre = new Genre();
-            PopulateViewBags();
+            PopulateViewBagsAsync().GetAwaiter().GetResult();
             return View(genre);
         }
 
@@ -86,7 +86,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(genre);
             }
@@ -120,7 +120,7 @@ namespace PS.Portal.Web.Controllers
         {
             var genre = await _genreRepository.GetItemAsync(id);
 
-            PopulateViewBags();
+            await PopulateViewBagsAsync();
 
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
@@ -178,7 +178,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(genre);
             }
@@ -236,12 +236,12 @@ namespace PS.Portal.Web.Controllers
             return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
-        private void PopulateViewBags()
+        private async Task PopulateViewBagsAsync()
         {
-            ViewBag.Movies = GetMovies();
+            ViewBag.Movies = await GetMoviesAsync();
         }
 
-        private async Task<List<SelectListItem>> GetMovies()
+        private async Task<List<SelectListItem>> GetMoviesAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 

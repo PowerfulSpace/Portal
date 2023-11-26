@@ -67,7 +67,7 @@ namespace PS.Portal.Web.Controllers
         public IActionResult Create()
         {
             var actor = new Actor();
-            PopulateViewBags();
+            PopulateViewBagsAsync().GetAwaiter().GetResult();
             return View(actor);
         }
 
@@ -104,7 +104,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(actor);
             }
@@ -138,7 +138,7 @@ namespace PS.Portal.Web.Controllers
         {
             var actor = await _actorRepository.GetItemAsync(id);
 
-            PopulateViewBags();
+            await PopulateViewBagsAsync();
 
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
@@ -202,7 +202,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                PopulateViewBags();
+                await PopulateViewBagsAsync();
 
                 return View(actor);
             }
@@ -260,13 +260,13 @@ namespace PS.Portal.Web.Controllers
             return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
-        private void PopulateViewBags()
+        private async Task PopulateViewBagsAsync()
         {
-            ViewBag.Genries = GetCountries();
-            ViewBag.Movies = GetMovies();
+            ViewBag.Genries = await GetCountriesAsync();
+            ViewBag.Movies = await GetMoviesAsync();
         }
 
-        private async Task<List<SelectListItem>> GetCountries()
+        private async Task<List<SelectListItem>> GetCountriesAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
@@ -288,7 +288,7 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private async Task<List<SelectListItem>> GetMovies()
+        private async Task<List<SelectListItem>> GetMoviesAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
