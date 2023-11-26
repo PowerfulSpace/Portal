@@ -277,7 +277,7 @@ namespace PS.Portal.Web.Controllers
 
         private void PopulateViewBags()
         {
-            ViewBag.Genries = GetCountries();
+            ViewBag.Countries = GetCountries();
             ViewBag.Reviews = GetReviews();
             ViewBag.Genres = GetGenres();
             ViewBag.Actors = GetActors();

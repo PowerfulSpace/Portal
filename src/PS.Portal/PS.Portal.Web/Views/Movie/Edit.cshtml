@@ -1,12 +1,12 @@
 ﻿@model Movie
 
 @{
-    ViewData["Title"] = "Edit";
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Create";
 }
 
-<h1>Edit</h1>
+<h1>@currentModel Edit</h1>
 
-<h4>Movie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

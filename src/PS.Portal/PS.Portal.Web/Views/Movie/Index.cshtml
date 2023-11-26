@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Movie>
 
 @{
-    ViewData["Title"] = "Index";
-    SortModel sortModel = (SortModel)ViewData["SortModel"];
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+
+    ViewData["Title"] = @currentModel + " - Index";
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
     PagerModel pagerModel = ViewBag.Pager;
 }
 
