@@ -28,16 +28,10 @@ namespace PS.Portal.Web.Controllers
         public async Task<IActionResult> Index(string sortExpression = "", string searchText = "", int currentPage = 1, int pageSize = 5)
         {
             SortModel sortModel = new SortModel();
-            sortModel.AddColumn("name");
-            sortModel.AddColumn("description");
-            sortModel.AddColumn("rating");
-            sortModel.AddColumn("yearShown");
-            sortModel.AddColumn("filmDuration");
-            sortModel.AddColumn("acceptableAge");
-            sortModel.AddColumn("isReaded");
-            sortModel.AddColumn("partFilm");
+            sortModel.AddColumn("firstName");
+            sortModel.AddColumn("lastName");
+            sortModel.AddColumn("birthDate");
             sortModel.AddColumn("country");
-            sortModel.AddColumn("producer");
             sortModel.ApplySort(sortExpression);
 
             PaginatedList<Producer> producers = await _producerRepository.GetItemsAsync(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);

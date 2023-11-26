@@ -44,8 +44,8 @@ namespace PS.Portal.Domain.Entities
         public Country? Country { get; set; }
 
 
-        [Display(Name = "Producer")]
         public Guid? ProducerId { get; set; }
+        [Display(Name = "Producer")]
         public Producer? CurrentProducer { get; set; }
 
         public List<Actor> Actors { get; set; } = new List<Actor>();
