@@ -1,0 +1,35 @@
+﻿@model Producer
+
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Create";
+}
+
+<h1>@currentModel Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<form asp-action="Delete">
+    <div class="col-4">
+        <div class="form-group">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="CountryId" class="control-label"></label>
+            <input asp-for="Country!.Name" class="form-control" readonly />
+        </div>
+        <div class="btn-group">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">Back</a>
+        </div>
+    </div>
+</form>
