@@ -7,35 +7,239 @@
 
 <h1>@currentModel Edit</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+
+
+<div class="col-lg-11 mx-auto pt-0 p-0">
+    <div class="card">
+        <div class="card-header bg-warning text-uppercase text-white text-center" style="height:40px;">
+            <h5>@currentModel Edit</h5>
+        </div>
+
+        <form asp-action="Edit" enctype="multipart/form-data">
+
+            <div class="btn-group">
+                <div calss="col-8">
+                    <div class="row">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group col-6">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Rating" class="control-label"></label>
+                            <input asp-for="Rating" class="form-control" />
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="YearShown" class="control-label"></label>
+                            <input asp-for="YearShown" class="form-control" />
+                            <span asp-validation-for="YearShown" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="FilmDuration" class="control-label"></label>
+                            <input asp-for="FilmDuration" class="form-control" />
+                            <span asp-validation-for="FilmDuration" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="AcceptableAge" class="control-label"></label>
+                            <select asp-for="AcceptableAge" class="form-control" asp-items="ViewBag.Units"></select>
+                            <span asp-validation-for="AcceptableAge" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="IsReaded" class="control-label"></label>
+                            <select asp-for="IsReaded" class="form-control" asp-items="ViewBag.Units"></select>
+                            <span asp-validation-for="IsReaded" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="PartFilm" class="control-label"></label>
+                            <select asp-for="PartFilm" class="form-control" asp-items="ViewBag.Units"></select>
+                            <span asp-validation-for="PartFilm" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label asp-for="CountryId" class="control-label"></label>
+                            <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries"></select>
+                            <span asp-validation-for="CountryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="ProducerId" class="control-label"></label>
+                            <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers"></select>
+                            <span asp-validation-for="ProducerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <select class="form-control" multiple asp-items="ViewBag.Producers"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <select class="form-control" multiple asp-items="ViewBag.Genres"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <select class="form-control" multiple asp-items="ViewBag.Reviews"></select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-4 row">
+
+                    <input type="hidden" asp-for="PhotoUrl" />
+
+                    <div class="form-group col-12 justify-content-center align-middle mb-0 pb-0">
+                        <img id="PreviewPhoto" src="~/images/@Model.PhotoUrl" alt="Logo Image" width="300" height="300" style="border:1px; margin-top:30px;" />
+                    </div>
+
+                    <div class="from-group col-"></div>
+
+                    <div class="form-group col-10 pt-0 mt-0">
+                        <div class="custom-file">
+                            <input asp-for="MoviePhoto" class="custom-file-input" id="customFile"
+                                   onchange="document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0])" />
+                            <label class="custom-file-label" for="customFile">@Model.BreifPhotoName</label>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+
+
+
+            <div class="row">
+                <div class="col-6 form-group  btn-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+                <div class="col-6 form-group  btn-group">
+                    <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">Back</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
-            </div>
-            <div class="form-group btn-group mt-2">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">Back</a>
-            </div>
+
         </form>
     </div>
 </div>
 
+
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+
+
+        $(".custom-file-input").on("change", function () {
+
+
+            document.getElementById("ImageError").classList.add("invisible");
+            document.getElementById("ImageError").classList.remove("visible");
+
+
+            var fsize = $(this)[0].files[0].size;
+
+            var fileName = $(this).val().split("\\").pop();
+
+            var fileExt = fileName.split('.').pop();
+
+            var error = IsImageValid(fsize, fileExt);
+            if (error != "") {
+                document.getElementById('ImageError').innerText = error;
+                document.getElementById('ImageError').classList.remove("invisible");
+                document.getElementById('ImageError').classList.add("visible");
+                return;
+            }
+
+
+
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+            //document.getElementById('ImageSizeInBytes').value = fsize;
+
+            //document.getElementById('ImageExtension').value = fileExt;
+
+            document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+
+            document.getElementById('ImageUrl').value = fileName;
+
+
+        });
+
+
+
+        function IsImageValid(fsize, fileExt) {
+
+            var error = "";
+
+            error = IsExtensionValid(fileExt);
+            if (error != "") {
+                return error;
+            }
+
+            error = IsFileSizeValid(fsize);
+            if (error != "") {
+                return error;
+            }
+
+            return "";
+
+        }
+
+
+
+        function IsExtensionValid(fileExt) {
+
+            if (fileExt != 'jpg' && fileExt != 'png') {
+                return "Only Jpeg or Png files are Accepted";
+            }
+
+            return "";
+        }
+
+
+        function IsFileSizeValid(fSize) {
+
+            var fSizeInKb = Math.round((fSize / 1024));
+
+            if (fSizeInKb > 100) {
+                return "Files sized over 100 kb are not Allowed";
+            }
+
+            return "";
+        }
+
+
+        function IsImageSelected() {
+
+            if (document.getElementById('ImageUrl').value == 'Error') {
+                return "Image Not Selected To Upload";
+            }
+
+            return "";
+        }
+
+
+        function ValidateForm() {
+
+            var error = IsImageSelected();
+            if (error != "") {
+
+                document.getElementById('ImageError').innerText = error;
+                document.getElementById('ImageError').classList.remove("invisible");
+                document.getElementById('ImageError').classList.add("visible");
+                return false;
+
+            }
+            return true;
+
+        }
+
+
+    </script>
+
 }

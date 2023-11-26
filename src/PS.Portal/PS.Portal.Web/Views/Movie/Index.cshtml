@@ -46,6 +46,48 @@
                     @Html.DisplayNameFor(model => model.Rating)
                 </a>
             </th>
+            <th>
+                <i class="@sortModel.GetColumn("yearShown").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("yearShown").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("filmDuration").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("filmDuration").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("acceptableAge").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("acceptableAge").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("isReaded").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("isReaded").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("partFilm").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("partFilm").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("country").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("country").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("producer").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("producer").SortExpression" asp-route-currentPage="@TempData.Peek("CurrentPage")" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")" style="color:black;text-decoration: none;">
+                    @Html.DisplayNameFor(model => model.Rating)
+                </a>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -60,7 +102,25 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
+                    @Html.DisplayFor(modelItem => item.YearShown)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilmDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcceptableAge)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsReaded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartFilm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country!.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentProducer!.LastName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">
