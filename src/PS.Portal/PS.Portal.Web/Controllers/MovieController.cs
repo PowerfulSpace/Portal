@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PS.Portal.DAL.Interfaces;
 using PS.Portal.Domain.Entities;
 using PS.Portal.Domain.Enums;
+using PS.Portal.Domain.Extensions;
 using PS.Portal.Domain.Models;
 
 namespace PS.Portal.Web.Controllers
@@ -184,9 +185,16 @@ namespace PS.Portal.Web.Controllers
 
                     if (movie.MoviePhoto != null)
                     {
+                        string oldFile = movie.PhotoUrl;
+
                         string uniqueFileName = GetUploadedFileName(movie);
                         if (uniqueFileName != null)
                             movie.PhotoUrl = uniqueFileName;
+
+                        if (oldFile != "noimage.png")
+                        {
+                            DeleteUnusedFile(movie, oldFile);
+                        }
                     }
 
                     movie = await _movieRepository.EditAsync(movie);
@@ -400,7 +408,9 @@ namespace PS.Portal.Web.Controllers
 
             if (movie.MoviePhoto != null)
             {
-                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images");
+                string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
+
+                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel);
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.MoviePhoto.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -412,5 +422,13 @@ namespace PS.Portal.Web.Controllers
             return uniqueFileName;
         }
 
+        private void DeleteUnusedFile(Movie movie, string fileName)
+        {
+            string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
+
+            string fullPatch = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel, fileName);
+
+            System.IO.File.Delete(fullPatch);
+        }
     }
 }

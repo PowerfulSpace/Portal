@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PS.Portal.DAL.Interfaces;
 using PS.Portal.Domain.Entities;
 using PS.Portal.Domain.Enums;
+using PS.Portal.Domain.Extensions;
 using PS.Portal.Domain.Models;
 
 namespace PS.Portal.Web.Controllers
@@ -164,9 +165,16 @@ namespace PS.Portal.Web.Controllers
 
                     if (producer.ProducerPhoto != null)
                     {
+                        string oldFile = producer.PhotoUrl;
+
                         string uniqueFileName = GetUploadedFileName(producer);
                         if (uniqueFileName != null)
                             producer.PhotoUrl = uniqueFileName;
+
+                        if (oldFile != "noimage.png")
+                        {
+                            DeleteUnusedFile(producer, oldFile);
+                        }
                     }
 
                     producer = await _producerRepository.EditAsync(producer);
@@ -311,7 +319,9 @@ namespace PS.Portal.Web.Controllers
 
             if (producer.ProducerPhoto != null)
             {
-                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images");
+                string typetModel = Helper.GetTypeName(producer.GetType().ToString()).ToLower();
+
+                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel);
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + producer.ProducerPhoto.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -321,6 +331,15 @@ namespace PS.Portal.Web.Controllers
                 }
             }
             return uniqueFileName;
+        }
+
+        private void DeleteUnusedFile(Producer producer, string fileName)
+        {
+            string typetModel = Helper.GetTypeName(producer.GetType().ToString()).ToLower();
+
+            string fullPatch = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel, fileName);
+
+            System.IO.File.Delete(fullPatch);
         }
     }
 }
