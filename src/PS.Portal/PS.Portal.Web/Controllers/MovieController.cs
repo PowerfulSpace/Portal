@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PS.Portal.DAL.Interfaces;
 using PS.Portal.Domain.Entities;
@@ -8,6 +9,7 @@ using PS.Portal.Domain.Models;
 
 namespace PS.Portal.Web.Controllers
 {
+    [Authorize]
     public class MovieController : Controller
     {
         private readonly IWebHostEnvironment _webHost;
