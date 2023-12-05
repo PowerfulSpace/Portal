@@ -24,7 +24,7 @@ namespace PS.Portal.DAL.Data.Configurations
                .HasForeignKey(x => x.CountryId);
 
 
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(25);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
         }
     }
 }
