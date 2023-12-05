@@ -164,8 +164,6 @@
                 return;
             }
 
-
-
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
             //document.getElementById('ImageSizeInBytes').value = fsize;
@@ -178,8 +176,6 @@
 
 
         });
-
-
 
         function IsImageValid(fsize, fileExt) {
 
@@ -199,8 +195,6 @@
 
         }
 
-
-
         function IsExtensionValid(fileExt) {
 
             if (fileExt != 'jpg' && fileExt != 'png') {
@@ -209,7 +203,6 @@
 
             return "";
         }
-
 
         function IsFileSizeValid(fSize) {
 
@@ -222,7 +215,6 @@
             return "";
         }
 
-
         function IsImageSelected() {
 
             if (document.getElementById('ImageUrl').value == 'Error') {
@@ -231,7 +223,6 @@
 
             return "";
         }
-
 
         function ValidateForm() {
 
