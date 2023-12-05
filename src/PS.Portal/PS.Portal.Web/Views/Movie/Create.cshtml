@@ -213,10 +213,11 @@
 
         function IsFileSizeValid(fSize) {
 
-            var fSizeInKb = Math.round((fSize / 1024));
+            // var fSizeInKb = Math.round((fSize / 1024));
+            var fSizeInKb = Math.round((fSize / 512));
 
-            if (fSizeInKb > 100) {
-                return "Files sized over 100 kb are not Allowed";
+            if (fSizeInKb > 288) {
+                return "Files sized over 288 kb are not Allowed";
             }
 
             return "";
