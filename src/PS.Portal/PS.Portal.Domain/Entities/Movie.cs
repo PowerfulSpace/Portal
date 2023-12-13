@@ -8,24 +8,28 @@ namespace PS.Portal.Domain.Entities
     {
         public Guid Id { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Название фильма")]
         public string Name { get; set; } = null!;
 
-        [Display(Name = "Description")]
+        [Display(Name = "Описание")]
         public string Description { get; set; } = null!;
 
         [Range(0, 10)]
-        [Display(Name = "Rating")]
+        [Display(Name = "Рейтинг")]
         public double Rating { get; set; }
 
-        [Display(Name = "YearShown")]
+        [Display(Name = "Год показа")]
         public DateTime YearShown { get; set; }
 
-        [Display(Name = "FilmDuration")]
+        [Display(Name = "Продолжительность фильма")]
         public int FilmDuration { get; set; }
 
+
+        [Display(Name = "Приемлемый возраст")]
         public int AcceptableAge { get; set; }
+        [Display(Name = "Просмотрен")]
         public bool IsReaded { get; set; }
+        [Display(Name = "Часть")]
         public int? PartFilm { get; set; }
 
 
@@ -39,18 +43,22 @@ namespace PS.Portal.Domain.Entities
         public string BreifPhotoName { get; set; } = null!;
 
 
-        [Display(Name = "Country")]
+        [Display(Name = "Страна")]
         public Guid? CountryId { get; set; }
         public Country? Country { get; set; }
 
 
+        [Display(Name = "режиссёр")]
         public Guid? ProducerId { get; set; }
-        [Display(Name = "Producer")]
         public Producer? CurrentProducer { get; set; }
 
+        [Display(Name = "Актёры")]
         public List<Actor> Actors { get; set; } = new List<Actor>();
 
+        [Display(Name = "Жанры")]
         public List<Genre> Genres { get; set; } = new List<Genre>();
+
+        [Display(Name = "Рецензии")]
         public List<Review> Reviews { get; set; } = new List<Review>();
 
     }
