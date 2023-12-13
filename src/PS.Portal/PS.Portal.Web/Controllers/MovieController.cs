@@ -84,7 +84,7 @@ namespace PS.Portal.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Movie movie)
+        public async Task<IActionResult> Create(Movie movie, List<Guid> genres, List<Guid> actors)
         {
             var bolret = false;
             string errMessage = "";
@@ -104,6 +104,10 @@ namespace PS.Portal.Web.Controllers
                     if (uniqueFileName != null)
                         movie.PhotoUrl = uniqueFileName;
 
+
+                    movie = await AddGenresAsync(movie, genres);
+                    movie = await AddActorsAsync(movie, actors);
+
                     movie = await _movieRepository.GreateAsync(movie);
                     bolret = true;
                 }
@@ -119,7 +123,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                await PopulateViewBagsAsync();
+                await PopulateViewBagsAsync(genres, actors);
 
                 return View(movie);
             }
@@ -169,7 +173,7 @@ namespace PS.Portal.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Movie movie)
+        public async Task<IActionResult> Edit(Movie movie, List<Guid> genres, List<Guid> actors)
         {
             var bolret = false;
             string errMessage = "";
@@ -199,6 +203,9 @@ namespace PS.Portal.Web.Controllers
                         }
                     }
 
+                    movie = await EditGenresAsync(movie, genres);
+                    movie = await EditActorsAsync(movie, actors);
+
                     movie = await _movieRepository.EditAsync(movie);
                     bolret = true;
                 }
@@ -227,7 +234,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                await PopulateViewBagsAsync();
+                await PopulateViewBagsAsync(genres, actors);
 
                 return View(movie);
             }
@@ -285,12 +292,23 @@ namespace PS.Portal.Web.Controllers
             return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
-        private async Task PopulateViewBagsAsync()
+        private async Task PopulateViewBagsAsync(List<Guid> genersId = null!, List<Guid> actorsId = null!)
         {
+            if (genersId == null || actorsId == null)
+            {
+                ViewBag.Reviews = await GetReviewsAsync();
+                ViewBag.Genres = await GetGenresAsync();
+                ViewBag.Actors = await GetActorsAsync();
+            }
+            else
+            {
+                ViewBag.Reviews = await GetReviewsAsync();
+                ViewBag.Genres = await GetGenresAsync();
+                ViewBag.Actors = await GetActorsAsync();
+            }
+
+
             ViewBag.Countries = await GetCountriesAsync();
-            ViewBag.Reviews = await GetReviewsAsync();
-            ViewBag.Genres = await GetGenresAsync();
-            ViewBag.Actors = await GetActorsAsync();
             ViewBag.Producers = await GetProducersAsync();
         }
 
@@ -338,6 +356,23 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
+        private async Task<List<SelectListItem>> GetReviewsAsync(List<Guid> itemId)
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = itemId.Contains(x.Id)
+            }).ToList();
+
+            return listIItems;
+        }
+
+
         private async Task<List<SelectListItem>> GetGenresAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
@@ -360,6 +395,23 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
+        private async Task<List<SelectListItem>> GetGenresAsync(List<Guid> itemId)
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = itemId.Contains(x.Id)
+            }).ToList();
+
+            return listIItems;
+        }
+
+
         private async Task<List<SelectListItem>> GetActorsAsync()
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
@@ -381,6 +433,23 @@ namespace PS.Portal.Web.Controllers
             listIItems.Insert(0, defItem);
             return listIItems;
         }
+
+        private async Task<List<SelectListItem>> GetActorsAsync(List<Guid> itemId)
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = itemId.Contains(x.Id)
+            }).ToList();
+
+            return listIItems;
+        }
+
 
         private async Task<List<SelectListItem>> GetProducersAsync()
         {
@@ -432,5 +501,121 @@ namespace PS.Portal.Web.Controllers
 
             System.IO.File.Delete(fullPatch);
         }
+
+
+        private async Task<Movie> AddGenresAsync(Movie movie, List<Guid> genres)
+        {
+            List<Genre> allGenres = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            List<Genre> genresList = new List<Genre>();
+
+
+            foreach (var genre in genres)
+            {
+                genresList.AddRange(allGenres.Where(x => x.Id == genre).ToList());
+            }
+            movie.Genres.AddRange(genresList);
+
+            return movie;
+        }
+
+        private async Task<Movie> AddActorsAsync(Movie movie, List<Guid> actors)
+        {
+            List<Actor> allActors = await _actorRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            List<Actor> actorsList = new List<Actor>();
+
+
+            foreach (var actor in actors)
+            {
+                actorsList.AddRange(allActors.Where(x => x.Id == actor).ToList());
+            }
+            movie.Actors.AddRange(actorsList);
+
+            return movie;
+        }
+
+
+        private async Task<Movie> EditGenresAsync(Movie movie, List<Guid> genres)
+        {
+            //Выбираем фильм до изменения, вытакскиваем все жанры которые были изначально
+            Movie movieBeforeChange = await _movieRepository.GetItemAsync(movie.Id);
+            List<Genre> genreBeforeChange = movieBeforeChange.Genres;
+
+            //Выбираем сначала все жанры, что бы выбрать по пришедшим id жанры которые выбранны сейчас
+            List<Genre> allGenres = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            List<Genre> genreAfterChange = new List<Genre>();
+            foreach (var genre in genres)
+            {
+                genreAfterChange.AddRange(allGenres.Where(x => x.Id == genre).ToList());
+            }
+
+            //Выбираю те жанры которые были до изменения, и их не стало после изменения, что бы
+            //Удалить их из таблицы на для коллекции фильмов
+            List<Genre> genresToDelete = genreBeforeChange.Except(genreAfterChange).ToList();
+
+            //Выбираю жанры которые были до измения, и которые остались после, что бы ни какие
+            //действия с ними не делать
+            List<Genre> genresUnchanged = genreBeforeChange.Intersect(genreAfterChange).ToList();
+
+            //Выбираю жанры которые нужно будет добавить в коллекию к фильму
+            List<Genre> genresToAdd = genreAfterChange.Except(genresUnchanged).ToList();
+
+
+            movie = movieBeforeChange;
+            if (genresToDelete != null)
+            {
+                foreach (var item in genresToDelete)
+                {
+                    movie.Genres.Remove(item);
+                }
+            }
+
+            if (genresToAdd != null)
+            {
+                movie.Genres.AddRange(genresToAdd);
+            }
+
+            return movie;
+        }
+
+        private async Task<Movie> EditActorsAsync(Movie movie, List<Guid> actros)
+        {
+
+            Movie movieBeforeChange = await _movieRepository.GetItemAsync(movie.Id);
+            List<Actor> actorsBeforeChange = movieBeforeChange.Actors;
+
+
+            List<Actor> allActors = await _actorRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            List<Actor> actorsAfterChange = new List<Actor>();
+            foreach (var actor in actros)
+            {
+                actorsAfterChange.AddRange(allActors.Where(x => x.Id == actor).ToList());
+            }
+
+
+            List<Actor> actorsToDelete = actorsBeforeChange.Except(actorsAfterChange).ToList();
+
+            List<Actor> actorsUnchanged = actorsBeforeChange.Intersect(actorsAfterChange).ToList();
+
+
+            List<Actor> actorsToAdd = actorsAfterChange.Except(actorsUnchanged).ToList();
+
+
+            movie = movieBeforeChange;
+            if (actorsToDelete != null)
+            {
+                foreach (var item in actorsToDelete)
+                {
+                    movie.Actors.Remove(item);
+                }
+            }
+
+            if (actorsToAdd != null)
+            {
+                movie.Actors.AddRange(actorsToAdd);
+            }
+
+            return movie;
+        }
+
     }
 }

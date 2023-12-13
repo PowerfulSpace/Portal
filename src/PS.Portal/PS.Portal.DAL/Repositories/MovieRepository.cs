@@ -117,6 +117,12 @@ namespace PS.Portal.DAL.Repositories
 
 
 
+
+
+
+
+
+
         private async Task<List<Movie>> DoSortAsync(List<Movie> items, string sortProperty, SortOrder order)
         {
             if (sortProperty.ToLower() == "name")

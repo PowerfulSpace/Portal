@@ -7,5 +7,6 @@ namespace PS.Portal.DAL.Interfaces
     {
         public bool IsItemNameExists(string name);
         public bool IsItemNameExists(string name, Guid id);
+
     }
 }
