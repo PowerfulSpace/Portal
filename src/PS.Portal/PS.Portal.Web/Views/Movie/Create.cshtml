@@ -1,4 +1,12 @@
-﻿@model Movie
+﻿<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/fonts/icomoon/style.css">
+<link rel="stylesheet" href="~/css/jquery.multiselect.css">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/style.css">
+
+@model Movie
 
 @{
     string currentModel = Helper.GetTypeName(Model.GetType().ToString());
@@ -28,11 +36,36 @@
                 <div class="form-group col-3"></div>          
             </div>
 
+            <div class="form-group row p-3">
+                <div class="form-group col-6">
+                    <label asp-for="Actors" class="control-label"></label>
+                    <select class="form-control 3col active" name="actors" multiple asp-items="ViewBag.Actors"></select>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Genres" class="control-label"></label>
+                    <select class="form-control 3col active" name="genres" multiple asp-items="ViewBag.Genres"></select>
+                </div>
+                @* <div class="form-group col-12">
+                    <select class="form-control 3col active" name="reviews" multiple asp-items="ViewBag.Reviews"></select>
+                </div> *@
+            </div>
+
             <div class="btn-group p-2">
                 <div calss="col-8">
 
 
                     <div class="row p-2">
+
+                        <div class="form-group col-6">
+                            <label asp-for="CountryId" class="control-label"></label>
+                            <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries"></select>
+                            <span asp-validation-for="CountryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="ProducerId" class="control-label"></label>
+                            <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers"></select>
+                            <span asp-validation-for="ProducerId" class="text-danger"></span>
+                        </div>
 
                         <div class="form-group col-2">
                             <label asp-for="PartFilm" class="control-label"></label>
@@ -70,30 +103,7 @@
                             <textarea asp-for="Description" class="form-control"></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-6">
-                            <label asp-for="CountryId" class="control-label"></label>
-                            <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries"></select>
-                            <span asp-validation-for="CountryId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="ProducerId" class="control-label"></label>
-                            <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers"></select>
-                            <span asp-validation-for="ProducerId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group row p-3">
-                            <div class="form-group col-4">
-                                <select class="form-control" multiple asp-items="ViewBag.Actors"></select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select class="form-control" multiple asp-items="ViewBag.Genres"></select>
-                            </div>
-                            <div class="form-group col-4">
-                                <select class="form-control" multiple asp-items="ViewBag.Reviews"></select>
-                            </div>
-                        </div>
-                      
-
+                       
                     </div>
                 </div>
 
@@ -139,6 +149,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
+    @* <script src="js/jquery-3.3.1.min.js"></script> *@
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.multiselect.js"></script>
+    <script src="~/js/main.js"></script>
 
     <script>
 

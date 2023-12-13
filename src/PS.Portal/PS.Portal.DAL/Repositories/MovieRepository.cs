@@ -23,17 +23,17 @@ namespace PS.Portal.DAL.Repositories
             if (searchText != "" && searchText != null)
             {
                 items = _context.Movies
+                .Where(x =>
+                x.Name.Contains(searchText) ||
+                x.Description.Contains(searchText) ||
+                x.Country!.Name.Contains(searchText) ||
+                x.CurrentProducer!.FirstName.Contains(searchText) ||
+                x.CurrentProducer!.LastName.Contains(searchText))
                     .Include(x => x.Country)
                     .Include(x => x.CurrentProducer)
                     .Include(x => x.Actors)
                     .Include(x => x.Genres)
                     .Include(x => x.Reviews)
-                        .Where(x => 
-                        x.Name.Contains(searchText) ||
-                        x.Description.Contains(searchText) ||
-                        x.Country!.Name.Contains(searchText) ||
-                        x.CurrentProducer!.FirstName.Contains(searchText) ||
-                        x.CurrentProducer!.LastName.Contains(searchText))
                     .ToList();
             }
             else

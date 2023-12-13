@@ -27,4 +27,11 @@
 	  <Folder Include="wwwroot\images\photos\producer\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Include="wwwroot\css\.DS_Store" />
+	  <None Include="wwwroot\fonts\.DS_Store" />
+	  <None Include="wwwroot\js\.DS_Store" />
+	  <None Include="wwwroot\scss\.DS_Store" />
+	</ItemGroup>
+
 </Project>
