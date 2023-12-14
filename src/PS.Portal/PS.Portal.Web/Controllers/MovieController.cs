@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using PS.Portal.DAL.Interfaces;
 using PS.Portal.Domain.Entities;
 using PS.Portal.Domain.Enums;
@@ -92,11 +93,7 @@ namespace PS.Portal.Web.Controllers
 
             try
             {
-                if (movie.Description.Length < 2 || movie.Description == null)
-                    errMessage = "Movie Description Must be atleast 2 Characters";
-
-                if (_movieRepository.IsItemNameExists(movie.Name) == true)
-                    errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
+                errMessage = await MethodCeateValidateAsync(movie, errMessage);
 
                 if (errMessage == "")
                 {
@@ -178,11 +175,7 @@ namespace PS.Portal.Web.Controllers
 
             try
             {
-                if (movie.Description.Length < 2 || movie.Description == null)
-                    errMessage = "Movie Description Must be atleast 2 Characters";
-
-                if (_movieRepository.IsItemNameExists(movie.Name, movie.Id) == true)
-                    errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
+                errMessage = await MethodEditValidateAsync(movie, errMessage);
 
                 if (errMessage == "")
                 {
@@ -502,6 +495,31 @@ namespace PS.Portal.Web.Controllers
 
 
 
+        #region Методы для валидации
+
+        private async Task<string> MethodCeateValidateAsync(Movie movie, string errMessage)
+        {
+            if (movie.Description.Length < 2 || movie.Description == null)
+                errMessage = "Movie Description Must be atleast 2 Characters";
+
+            if (_movieRepository.IsItemNameExists(movie.Name) == true)
+                errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
+
+            return errMessage;
+        }
+
+        private async Task<string> MethodEditValidateAsync(Movie movie, string errMessage)
+        {
+            if (movie.Description.Length < 2 || movie.Description == null)
+                errMessage = "Movie Description Must be atleast 2 Characters";
+
+            if (_movieRepository.IsItemNameExists(movie.Name, movie.Id) == true)
+                errMessage = errMessage + " " + " Movie Name " + movie.Name + " Exists Already";
+
+            return errMessage;
+        }
+
+        #endregion
 
 
 
