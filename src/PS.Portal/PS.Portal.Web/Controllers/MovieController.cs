@@ -219,7 +219,7 @@ namespace PS.Portal.Web.Controllers
                     }
 
 
-                    if(genres != null)
+                    if (genres != null)
                         movie = await EditGenresAsync(movie, genres);
                     if (actors != null)
                         movie = await EditActorsAsync(movie, actors);
@@ -289,7 +289,7 @@ namespace PS.Portal.Web.Controllers
             {
                 movie = await _movieRepository.DeleteAsync(movie);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string errMessage = ex.Message;
                 TempData["ErrorMessage"] = errMessage;
@@ -331,6 +331,10 @@ namespace PS.Portal.Web.Controllers
             ViewBag.Countries = await GetCountriesAsync();
             ViewBag.Producers = await GetProducersAsync();
         }
+
+
+
+        #region Методы для подгрузки связанных данных из таблиц
 
         private async Task<List<SelectListItem>> GetCountriesAsync()
         {
@@ -493,36 +497,6 @@ namespace PS.Portal.Web.Controllers
             return listIItems;
         }
 
-        private string GetUploadedFileName(Movie movie)
-        {
-            string uniqueFileName = string.Empty;
-
-            if (movie.MoviePhoto != null)
-            {
-                string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
-
-                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel);
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.MoviePhoto.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    movie.MoviePhoto.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
-
-        private void DeleteUnusedFile(Movie movie, string fileName)
-        {
-            string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
-
-            string fullPatch = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel, fileName);
-
-            System.IO.File.Delete(fullPatch);
-        }
-
-
         private async Task<Movie> AddGenresAsync(Movie movie, List<Guid> genres)
         {
             List<Genre> allGenres = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
@@ -553,6 +527,14 @@ namespace PS.Portal.Web.Controllers
             return movie;
         }
 
+        #endregion
+
+
+
+
+
+
+        #region Методы для Редактирование Жанров,Актёров, Рецензий во время редактирования фильма
 
         private async Task<Movie> EditGenresAsync(Movie movie, List<Guid> genres)
         {
@@ -681,6 +663,47 @@ namespace PS.Portal.Web.Controllers
 
             return movie;
         }
+
+        #endregion
+
+
+
+
+
+
+        #region Методы для Редактирование фотографий
+
+        private string GetUploadedFileName(Movie movie)
+        {
+            string uniqueFileName = string.Empty;
+
+            if (movie.MoviePhoto != null)
+            {
+                string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
+
+                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel);
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.MoviePhoto.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    movie.MoviePhoto.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
+
+        private void DeleteUnusedFile(Movie movie, string fileName)
+        {
+            string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
+
+            string fullPatch = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel, fileName);
+
+            System.IO.File.Delete(fullPatch);
+        }
+
+        #endregion
+
 
     }
 }
