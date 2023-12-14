@@ -89,7 +89,7 @@ namespace PS.Portal.Web.Controllers
 
             //using (var fileStream = new FileStream(movie.PhotoUrl, FileMode.OpenOrCreate))
             //{
-            //    file = new FormFile(fileStream, 0, fileStream.Length, movie.PhotoUrl, movie.PhotoUrl);
+            //    file = new FormFile(fileStream, 0, fileStream.Length, "MoviePhoto", movie.PhotoUrl);
             //}
 
             //movie.MoviePhoto = file;
