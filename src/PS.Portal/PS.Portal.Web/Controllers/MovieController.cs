@@ -6,11 +6,6 @@ using PS.Portal.Domain.Entities;
 using PS.Portal.Domain.Enums;
 using PS.Portal.Domain.Extensions;
 using PS.Portal.Domain.Models;
-using System;
-using System.Collections;
-using System.Drawing;
-using System.IO;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PS.Portal.Web.Controllers
 {
