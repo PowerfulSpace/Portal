@@ -110,13 +110,15 @@ namespace PS.Portal.Web.Controllers
                 if (errMessage == "")
                 {
 
+                    //if (movie.MoviePhoto != null)
+                    //{
+                    //    string uniqueFileName = GetUploadedFileName(movie);
+                    //    if (uniqueFileName != null)
+                    //        movie.PhotoUrl = uniqueFileName;
+                    //}
                     if (movie.MoviePhoto != null)
-                    {
-                        string uniqueFileName = GetUploadedFileName(movie);
-                        if (uniqueFileName != null)
-                            movie.PhotoUrl = uniqueFileName;
-                    }
-                      
+                        GetUploadedFileName(movie);
+
                     movie = await AddGenresAsync(movie, genres);
                     movie = await AddActorsAsync(movie, actors);
 
@@ -206,17 +208,20 @@ namespace PS.Portal.Web.Controllers
                 if (errMessage == "")
                 {
 
+                    //if (movie.MoviePhoto != null)
+                    //{
+                    //    string oldFile = movie.PhotoUrl;
+
+                    //    string uniqueFileName = GetUploadedFileName(movie);
+                    //    if (uniqueFileName != null)
+                    //        movie.PhotoUrl = uniqueFileName;
+                    //    DeleteUnusedFile(movie, oldFile);
+                    //}
+
                     if (movie.MoviePhoto != null)
-                    {
-                        string oldFile = movie.PhotoUrl;
+                        GetUploadedFileName(movie);
 
-                        string uniqueFileName = GetUploadedFileName(movie);
-                        if (uniqueFileName != null)
-                            movie.PhotoUrl = uniqueFileName;
-                        DeleteUnusedFile(movie, oldFile);
-                    }
 
-                  
                     if (genres != null)
                         movie = await EditGenresAsync(movie, genres);
                     if (actors != null)
@@ -702,6 +707,8 @@ namespace PS.Portal.Web.Controllers
 
         private string GetUploadedFileName(Movie movie)
         {
+            string oldFile = movie.PhotoUrl;
+
             string uniqueFileName = string.Empty;
 
             if (movie.MoviePhoto != null)
@@ -717,6 +724,13 @@ namespace PS.Portal.Web.Controllers
                     movie.MoviePhoto.CopyTo(fileStream);
                 }
             }
+
+            if (uniqueFileName != null && uniqueFileName != "")
+                movie.PhotoUrl = uniqueFileName;
+
+            if (oldFile != "noimage.png")
+                DeleteUnusedFile(movie, oldFile);
+
             return uniqueFileName;
         }
 
