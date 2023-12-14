@@ -80,15 +80,6 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = new Movie();
 
-            //IFormFile file;
-
-            //using (var fileStream = new FileStream(movie.PhotoUrl, FileMode.OpenOrCreate))
-            //{
-            //    file = new FormFile(fileStream, 0, fileStream.Length, "MoviePhoto", movie.PhotoUrl);
-            //}
-
-            //movie.MoviePhoto = file;
-
             PopulateViewBagsAsync().GetAwaiter().GetResult();
             return View(movie);
         }
@@ -109,13 +100,6 @@ namespace PS.Portal.Web.Controllers
 
                 if (errMessage == "")
                 {
-
-                    //if (movie.MoviePhoto != null)
-                    //{
-                    //    string uniqueFileName = GetUploadedFileName(movie);
-                    //    if (uniqueFileName != null)
-                    //        movie.PhotoUrl = uniqueFileName;
-                    //}
                     if (movie.MoviePhoto != null)
                         GetUploadedFileName(movie);
 
@@ -171,11 +155,6 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _movieRepository.GetItemAsync(id);
 
-            //if (movie.MoviePhoto == null)
-            //{
-            //    GetDefaultFileName(movie);
-            //}
-
             await PopulateViewBagsAsync(movie.Genres.Select(x => x.Id).ToList(), movie.Actors.Select(x => x.Id).ToList(), movie.Reviews.Select(x => x.Id).ToList());
 
             TempData.Keep("CurrentPage");
@@ -207,17 +186,6 @@ namespace PS.Portal.Web.Controllers
 
                 if (errMessage == "")
                 {
-
-                    //if (movie.MoviePhoto != null)
-                    //{
-                    //    string oldFile = movie.PhotoUrl;
-
-                    //    string uniqueFileName = GetUploadedFileName(movie);
-                    //    if (uniqueFileName != null)
-                    //        movie.PhotoUrl = uniqueFileName;
-                    //    DeleteUnusedFile(movie, oldFile);
-                    //}
-
                     if (movie.MoviePhoto != null)
                         GetUploadedFileName(movie);
 
@@ -675,34 +643,6 @@ namespace PS.Portal.Web.Controllers
 
 
         #region Методы для Редактирование фотографий
-
-        //private void GetDefaultFileName(Movie movie)
-        //{
-
-        //    using (var stream = System.IO.File.OpenRead("noimage.png"))
-        //    {
-        //        var file = new FormFile(stream, 0, stream.Length, "MoviePhoto", Path.GetFileName(stream.Name))
-        //        {
-        //            Headers = new HeaderDictionary(),
-        //            ContentType = "application/png"
-        //        };
-
-        //        movie.MoviePhoto = file;
-        //    }
-
-        //    string uniqueFileName = string.Empty;
-
-        //    string typetModel = Helper.GetTypeName(movie.GetType().ToString()).ToLower();
-
-        //    string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images", "photos", typetModel);
-        //    uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.MoviePhoto.FileName;
-        //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-        //    using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //    {
-        //        movie.MoviePhoto.CopyTo(fileStream);
-        //    }
-        //}
 
 
         private string GetUploadedFileName(Movie movie)
