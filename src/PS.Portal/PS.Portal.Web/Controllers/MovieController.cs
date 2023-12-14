@@ -110,11 +110,13 @@ namespace PS.Portal.Web.Controllers
                 if (errMessage == "")
                 {
 
-                    string uniqueFileName = GetUploadedFileName(movie);
-                    if (uniqueFileName != null)
-                        movie.PhotoUrl = uniqueFileName;
-
-
+                    if (movie.MoviePhoto != null)
+                    {
+                        string uniqueFileName = GetUploadedFileName(movie);
+                        if (uniqueFileName != null)
+                            movie.PhotoUrl = uniqueFileName;
+                    }
+                      
                     movie = await AddGenresAsync(movie, genres);
                     movie = await AddActorsAsync(movie, actors);
 
@@ -211,14 +213,10 @@ namespace PS.Portal.Web.Controllers
                         string uniqueFileName = GetUploadedFileName(movie);
                         if (uniqueFileName != null)
                             movie.PhotoUrl = uniqueFileName;
-
-                        if (oldFile != "noimage.png")
-                        {
-                            DeleteUnusedFile(movie, oldFile);
-                        }
+                        DeleteUnusedFile(movie, oldFile);
                     }
 
-
+                  
                     if (genres != null)
                         movie = await EditGenresAsync(movie, genres);
                     if (actors != null)

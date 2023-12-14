@@ -37,7 +37,7 @@ namespace PS.Portal.Domain.Entities
 
         [Display(Name = "MoviePhoto")]
         [NotMapped]
-        public IFormFile MoviePhoto { get; set; } = null!;
+        public IFormFile? MoviePhoto { get; set; }
 
         [NotMapped]
         public string BreifPhotoName { get; set; } = null!;
