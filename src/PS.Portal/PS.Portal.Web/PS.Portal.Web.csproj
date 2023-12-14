@@ -34,4 +34,10 @@
 	  <None Include="wwwroot\scss\.DS_Store" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="wwwroot\images\noimage.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>
