@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="~/fonts/icomoon/style.css">
 <link rel="stylesheet" href="~/css/jquery.multiselect.css">
-<link rel="stylesheet" href="~/css/bootstrap.min.css">
+@* <link rel="stylesheet" href="~/css/bootstrap.min.css"> *@
 <link rel="stylesheet" href="~/css/style.css">
 
 @model Movie
@@ -24,7 +24,7 @@
             <h5>@currentModel Edit</h5>
         </div>
 
-        <form asp-action="Edit" enctype="multipart/form-data" onsubmit="return ValidateForm()">
+        <form asp-action="Edit" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -137,6 +137,36 @@
                 </div>
             </div>
 
+            @if (Model.Actors.Any() || Model.Genres.Any())
+            {
+                <div class="p-3"></div>
+                <div class="row">
+                    <div class="form-group col-1"></div>
+                    <div class="form-group col-4">
+                        <label class="control-label">Актёры:</label>
+                        @if (Model.Actors.Any())
+                        {
+                            foreach (var item in Model.Actors)
+                            {
+                                <input value="@item.LastName" class="form-control bg-warning bg-opacity-25" readonly />
+                            }
+                        }
+                    </div>
+                    <div class="form-group col-2"></div>
+                    <div class="form-group col-4">
+                        <label class="control-label">Жанры:</label>
+                        @if (Model.Genres.Any())
+                        {
+                            foreach (var item in Model.Genres)
+                            {
+                                <input value="@item.Name" class="form-control bg-warning bg-opacity-25" readonly />
+                            }
+                        }
+                    </div>
+                    <div class="form-group col-1"></div>
+                </div>
+                <div class="p-3"></div>
+            }
 
 
             <div class="row">
@@ -260,20 +290,20 @@
         }
 
 
-        function ValidateForm() {
+        // function ValidateForm() {
 
-            var error = IsImageSelected();
-            if (error != "") {
+        //     var error = IsImageSelected();
+        //     if (error != "") {
 
-                document.getElementById('ImageError').innerText = error;
-                document.getElementById('ImageError').classList.remove("invisible");
-                document.getElementById('ImageError').classList.add("visible");
-                return false;
+        //         document.getElementById('ImageError').innerText = error;
+        //         document.getElementById('ImageError').classList.remove("invisible");
+        //         document.getElementById('ImageError').classList.add("visible");
+        //         return false;
 
-            }
-            return true;
+        //     }
+        //     return true;
 
-        }
+        // }
 
 
     </script>

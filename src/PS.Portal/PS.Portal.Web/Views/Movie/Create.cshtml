@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="~/fonts/icomoon/style.css">
 <link rel="stylesheet" href="~/css/jquery.multiselect.css">
-<link rel="stylesheet" href="~/css/bootstrap.min.css">
+@* <link rel="stylesheet" href="~/css/bootstrap.min.css"> *@
 <link rel="stylesheet" href="~/css/style.css">
 
 @model Movie
@@ -23,7 +23,8 @@
             <h5>@currentModel Create</h5>
         </div>
 
-        <form asp-action="Create" enctype="multipart/form-data" onsubmit="return ValidateForm()">
+        @* <form asp-action="Create" enctype="multipart/form-data" onsubmit="return ValidateForm()"> *@
+        <form asp-action="Create" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -239,20 +240,20 @@
             return "";
         }
 
-        function ValidateForm() {
+        // function ValidateForm() {
 
-            var error = IsImageSelected();
-            if (error != "") {
+        //     var error = IsImageSelected();
+        //     if (error != "") {
 
-                document.getElementById('ImageError').innerText = error;
-                document.getElementById('ImageError').classList.remove("invisible");
-                document.getElementById('ImageError').classList.add("visible");
-                return false;
+        //         document.getElementById('ImageError').innerText = error;
+        //         document.getElementById('ImageError').classList.remove("invisible");
+        //         document.getElementById('ImageError').classList.add("visible");
+        //         return false;
 
-            }
-            return true;
+        //     }
+        //     return true;
 
-        }
+        // }
 
 
     </script>
