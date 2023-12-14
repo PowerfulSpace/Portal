@@ -1,4 +1,12 @@
-﻿@model Movie
+﻿<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/fonts/icomoon/style.css">
+<link rel="stylesheet" href="~/css/jquery.multiselect.css">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/style.css">
+
+@model Movie
 
 @{
     string currentModel = Helper.GetTypeName(Model.GetType().ToString());
@@ -10,60 +18,47 @@
 
 
 
-<div class="col-lg-11 mx-auto pt-0 p-0">
+<div class="col-lg-12 mx-auto pt-0 p-0">
     <div class="card">
         <div class="card-header bg-warning text-uppercase text-white text-center" style="height:40px;">
             <h5>@currentModel Edit</h5>
         </div>
 
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data" onsubmit="return ValidateForm()">
 
-            <div class="btn-group">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row form-group col-12 p-3">
+                <div class="form-group col-3"></div>
+                <div class="col-6">
+                    <input asp-for="Name" class="form-control" placeholder="Name Film" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3">
+                    <input asp-for="IsReaded" type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
+                    <label asp-for="IsReaded" class="btn btn-outline-warning" for="btn-check-outlined">Is Readed</label>
+                </div>
+            </div>
+
+            <div class="form-group row p-3">
+                <div class="form-group col-6">
+                    <label asp-for="Actors" class="control-label"></label>
+                    <select class="form-control 3col active" name="actors" multiple asp-items="ViewBag.Actors"></select>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Genres" class="control-label"></label>
+                    <select class="form-control 3col active" name="genres" multiple asp-items="ViewBag.Genres"></select>
+                </div>
+                @* <div class="form-group col-12">
+                <select class="form-control 3col active" name="reviews" multiple asp-items="ViewBag.Reviews"></select>
+                </div> *@
+            </div>
+
+            <div class="btn-group p-2">
                 <div calss="col-8">
-                    <div class="row">
 
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="form-group col-6">
-                            <label asp-for="Name" class="control-label"></label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="Description" class="control-label"></label>
-                            <textarea asp-for="Description" class="form-control"></textarea>
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="Rating" class="control-label"></label>
-                            <input asp-for="Rating" class="form-control" />
-                            <span asp-validation-for="Rating" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="YearShown" class="control-label"></label>
-                            <input asp-for="YearShown" class="form-control" />
-                            <span asp-validation-for="YearShown" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="FilmDuration" class="control-label"></label>
-                            <input asp-for="FilmDuration" class="form-control" />
-                            <span asp-validation-for="FilmDuration" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="AcceptableAge" class="control-label"></label>
-                            <input asp-for="AcceptableAge" class="form-control" />
-                            <span asp-validation-for="AcceptableAge" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="IsReaded" class="control-label"></label>
-                            <input asp-for="IsReaded" type="checkbox" class="form-check-input" />
-                            <span asp-validation-for="IsReaded" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="PartFilm" class="control-label"></label>
-                            <input asp-for="PartFilm" class="form-control" />
-                            <span asp-validation-for="PartFilm" class="text-danger"></span>
-                        </div>
+                    <div class="row p-2">
 
                         <div class="form-group col-6">
                             <label asp-for="CountryId" class="control-label"></label>
@@ -75,14 +70,37 @@
                             <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers"></select>
                             <span asp-validation-for="ProducerId" class="text-danger"></span>
                         </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="PartFilm" class="control-label"></label>
+                            <input asp-for="PartFilm" class="form-control" />
+                            <span asp-validation-for="PartFilm" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="AcceptableAge" class="control-label"></label>
+                            <input asp-for="AcceptableAge" class="form-control" />
+                            <span asp-validation-for="AcceptableAge" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Rating" class="control-label"></label>
+                            <input asp-for="Rating" class="form-control" />
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+
                         <div class="form-group col-6">
-                            <select class="form-control" multiple asp-items="ViewBag.Producers"></select>
+                            <label asp-for="YearShown" class="control-label"></label>
+                            <input asp-for="YearShown" class="form-control" />
+                            <span asp-validation-for="YearShown" class="text-danger"></span>
                         </div>
                         <div class="form-group col-6">
-                            <select class="form-control" multiple asp-items="ViewBag.Genres"></select>
+                            <label asp-for="FilmDuration" class="control-label"></label>
+                            <input asp-for="FilmDuration" class="form-control" />
+                            <span asp-validation-for="FilmDuration" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-6">
-                            <select class="form-control" multiple asp-items="ViewBag.Reviews"></select>
+                        <div class="form-group col-12">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                     </div>
@@ -113,10 +131,10 @@
 
             <div class="row">
                 <div class="col-6 form-group  btn-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-warning" />
                 </div>
                 <div class="col-6 form-group  btn-group">
-                    <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")" asp-route-searchText="@TempData.Peek("SearchText")">Back</a>
+                    <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]" asp-route-pageSize="@TempData.Peek("PageSize")">Back</a>
                 </div>
             </div>
 
@@ -124,11 +142,19 @@
     </div>
 </div>
 
+<div class="p-5"></div>
+
 
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @* <script src="js/jquery-3.3.1.min.js"></script> *@
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.multiselect.js"></script>
+    <script src="~/js/main.js"></script>
 
 
     <script>

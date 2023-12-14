@@ -6,6 +6,11 @@ using PS.Portal.Domain.Entities;
 using PS.Portal.Domain.Enums;
 using PS.Portal.Domain.Extensions;
 using PS.Portal.Domain.Models;
+using System;
+using System.Collections;
+using System.Drawing;
+using System.IO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PS.Portal.Web.Controllers
 {
@@ -79,12 +84,22 @@ namespace PS.Portal.Web.Controllers
         public IActionResult Create()
         {
             var movie = new Movie();
+
+            //IFormFile file;
+
+            //using (var fileStream = new FileStream(movie.PhotoUrl, FileMode.OpenOrCreate))
+            //{
+            //    file = new FormFile(fileStream, 0, fileStream.Length, movie.PhotoUrl, movie.PhotoUrl);
+            //}
+
+            //movie.MoviePhoto = file;
+
             PopulateViewBagsAsync().GetAwaiter().GetResult();
             return View(movie);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Movie movie, List<Guid> genres, List<Guid> actors)
+        public async Task<IActionResult> Create(Movie movie, List<Guid> genres, List<Guid> actors, List<Guid> reviews)
         {
             var bolret = false;
             string errMessage = "";
@@ -123,7 +138,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                await PopulateViewBagsAsync(genres, actors);
+                await PopulateViewBagsAsync(genres, actors, reviews);
 
                 return View(movie);
             }
@@ -157,7 +172,7 @@ namespace PS.Portal.Web.Controllers
         {
             var movie = await _movieRepository.GetItemAsync(id);
 
-            await PopulateViewBagsAsync();
+            await PopulateViewBagsAsync(movie.Genres.Select(x => x.Id).ToList(), movie.Actors.Select(x => x.Id).ToList(), movie.Reviews.Select(x => x.Id).ToList());
 
             TempData.Keep("CurrentPage");
             TempData.Keep("PageSize");
@@ -173,7 +188,7 @@ namespace PS.Portal.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Movie movie, List<Guid> genres, List<Guid> actors)
+        public async Task<IActionResult> Edit(Movie movie, List<Guid> genres, List<Guid> actors, List<Guid> reviews)
         {
             var bolret = false;
             string errMessage = "";
@@ -203,8 +218,13 @@ namespace PS.Portal.Web.Controllers
                         }
                     }
 
-                    movie = await EditGenresAsync(movie, genres);
-                    movie = await EditActorsAsync(movie, actors);
+
+                    if(genres != null)
+                        movie = await EditGenresAsync(movie, genres);
+                    if (actors != null)
+                        movie = await EditActorsAsync(movie, actors);
+                    if (reviews != null)
+                        movie = await EditReviewsAsync(movie, reviews);
 
                     movie = await _movieRepository.EditAsync(movie);
                     bolret = true;
@@ -234,7 +254,7 @@ namespace PS.Portal.Web.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                await PopulateViewBagsAsync(genres, actors);
+                await PopulateViewBagsAsync(genres, actors, reviews);
 
                 return View(movie);
             }
@@ -292,19 +312,19 @@ namespace PS.Portal.Web.Controllers
             return RedirectToAction(nameof(Index), new { currentPage = currentPage, pageSize = pageSize, searchText = TempData.Peek("SearchText") });
         }
 
-        private async Task PopulateViewBagsAsync(List<Guid> genersId = null!, List<Guid> actorsId = null!)
+        private async Task PopulateViewBagsAsync(List<Guid> genersId = null!, List<Guid> actorsId = null!, List<Guid> reviewsId = null!)
         {
-            if (genersId == null || actorsId == null)
+            if (genersId == null && actorsId == null && reviewsId == null)
             {
-                ViewBag.Reviews = await GetReviewsAsync();
                 ViewBag.Genres = await GetGenresAsync();
                 ViewBag.Actors = await GetActorsAsync();
+                ViewBag.Reviews = await GetReviewsAsync();
             }
             else
             {
-                ViewBag.Reviews = await GetReviewsAsync();
-                ViewBag.Genres = await GetGenresAsync();
-                ViewBag.Actors = await GetActorsAsync();
+                ViewBag.Reviews = await GetReviewsAsync(reviewsId);
+                ViewBag.Genres = await GetGenresAsync(genersId);
+                ViewBag.Actors = await GetActorsAsync(actorsId);
             }
 
 
@@ -360,11 +380,11 @@ namespace PS.Portal.Web.Controllers
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
-            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            PaginatedList<Review> items = await _reviewRepository.GetItemsAsync("login", SortOrder.Ascending, "", 1, 1000);
 
             listIItems = items.Select(x => new SelectListItem()
             {
-                Text = x.Name,
+                Text = x.Login,
                 Value = x.Id.ToString(),
                 Selected = itemId.Contains(x.Id)
             }).ToList();
@@ -438,11 +458,11 @@ namespace PS.Portal.Web.Controllers
         {
             List<SelectListItem> listIItems = new List<SelectListItem>();
 
-            PaginatedList<Genre> items = await _genreRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            PaginatedList<Actor> items = await _actorRepository.GetItemsAsync("lastname", SortOrder.Ascending, "", 1, 1000);
 
             listIItems = items.Select(x => new SelectListItem()
             {
-                Text = x.Name,
+                Text = x.LastName,
                 Value = x.Id.ToString(),
                 Selected = itemId.Contains(x.Id)
             }).ToList();
@@ -612,6 +632,47 @@ namespace PS.Portal.Web.Controllers
             if (actorsToAdd != null)
             {
                 movie.Actors.AddRange(actorsToAdd);
+            }
+
+            return movie;
+        }
+
+
+        private async Task<Movie> EditReviewsAsync(Movie movie, List<Guid> reviews)
+        {
+
+            Movie movieBeforeChange = await _movieRepository.GetItemAsync(movie.Id);
+            List<Review> reviewsBeforeChange = movieBeforeChange.Reviews;
+
+
+            List<Review> allReviews = await _reviewRepository.GetItemsAsync("name", SortOrder.Ascending, "", 1, 1000);
+            List<Review> reviewsAfterChange = new List<Review>();
+            foreach (var review in reviews)
+            {
+                reviewsAfterChange.AddRange(allReviews.Where(x => x.Id == review).ToList());
+            }
+
+
+            List<Review> reviewsToDelete = reviewsBeforeChange.Except(reviewsAfterChange).ToList();
+
+            List<Review> reviewsUnchanged = reviewsBeforeChange.Intersect(reviewsAfterChange).ToList();
+
+
+            List<Review> reviewsToAdd = reviewsAfterChange.Except(reviewsUnchanged).ToList();
+
+
+            movie = movieBeforeChange;
+            if (reviewsToDelete != null)
+            {
+                foreach (var item in reviewsToDelete)
+                {
+                    movie.Reviews.Remove(item);
+                }
+            }
+
+            if (reviewsToAdd != null)
+            {
+                movie.Reviews.AddRange(reviewsToAdd);
             }
 
             return movie;
