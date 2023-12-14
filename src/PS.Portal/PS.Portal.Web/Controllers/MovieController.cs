@@ -579,7 +579,10 @@ namespace PS.Portal.Web.Controllers
             //Выбираю жанры которые нужно будет добавить в коллекию к фильму
             List<Genre> genresToAdd = genreAfterChange.Except(genresUnchanged).ToList();
 
-
+            //Изменения ссылки на фотографию надо по нескольким причинам.
+            //1)movieBeforeChange это наша модель до изменения фотографии, там старая фотография
+            //2)если этого не сделать, фотографии будут пладиться. т.к не будет ссылки что удалить старую
+            movieBeforeChange.PhotoUrl = movie.PhotoUrl;
             movie = movieBeforeChange;
             if (genresToDelete != null)
             {
@@ -619,7 +622,7 @@ namespace PS.Portal.Web.Controllers
 
             List<Actor> actorsToAdd = actorsAfterChange.Except(actorsUnchanged).ToList();
 
-
+            movieBeforeChange.PhotoUrl = movie.PhotoUrl;
             movie = movieBeforeChange;
             if (actorsToDelete != null)
             {
@@ -661,6 +664,7 @@ namespace PS.Portal.Web.Controllers
             List<Review> reviewsToAdd = reviewsAfterChange.Except(reviewsUnchanged).ToList();
 
 
+            movieBeforeChange.PhotoUrl = movie.PhotoUrl;
             movie = movieBeforeChange;
             if (reviewsToDelete != null)
             {
