@@ -18,8 +18,8 @@ namespace PS.Portal.Domain.Entities
         [Display(Name = "Рейтинг")]
         public double Rating { get; set; }
 
-        [Display(Name = "Год показа")]
-        public DateTime YearShown { get; set; }
+        [Display(Name = "Год выпуска")]
+        public DateTime ReleaseYear { get; set; }
 
         [Display(Name = "Продолжительность фильма")]
         public int FilmDuration { get; set; }

@@ -149,9 +149,9 @@ namespace PS.Portal.DAL.Repositories
             else if (sortProperty.ToLower() == "yearShown")
             {
                 if (order == SortOrder.Ascending)
-                    items = items.OrderBy(x => x.YearShown).ToList();
+                    items = items.OrderBy(x => x.ReleaseYear).ToList();
                 else
-                    items = items.OrderByDescending(x => x.YearShown).ToList();
+                    items = items.OrderByDescending(x => x.ReleaseYear).ToList();
             }
             else if (sortProperty.ToLower() == "filmDuration")
             {
