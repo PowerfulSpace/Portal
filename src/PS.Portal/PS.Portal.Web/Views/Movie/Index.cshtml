@@ -124,23 +124,25 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CurrentProducer!.LastName)
-                    </td>
+                    </td>  
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">
-                            <span class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                        <a asp-action="Details" asp-route-id="@item.Id">
-                            <span class="btn btn-sm btn-outline-dark">
-                                <i class="bi bi-circle" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">
-                            <span class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-x-lg" aria-hidden="true"></i>
-                            </span>
-                        </a>
+                        <div class="row col-12">
+                            <a class="col-4" asp-action="Edit" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a class="col-4" asp-action="Details" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-dark">
+                                    <i class="bi bi-circle" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                            <a class="col-4" asp-action="Delete" asp-route-id="@item.Id">
+                                <span class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-x-lg" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </div>                     
                     </td>
                 </tr>
             }
