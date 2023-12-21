@@ -1,83 +1,138 @@
-﻿
+﻿@model IEnumerable<Movie>
 
 
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
 
-<div class="card border-secondary mb-3 shadow-lg" style="max-width: 50rem;">
+    ViewData["Title"] = @currentModel + " - Index";
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
+    PagerModel pagerModel = ViewBag.Pager;
+}
 
-    <div class="card-header bg-secondary bg-opacity-25 border-secondary">
-        <a class="text-black" href="#" style="text-decoration:none;">
-            <h5 class="card-title">Названия фильма (1995)</h5>
-        </a>
+
+<div class="row">
+    <div class="col-12">
+        <partial name="Partial/PartialPageBars/_topBar" model="pagerModel" />
     </div>
+</div>
 
-    <div class="card-body text-secondary bg-secondary bg-opacity-10">
-        <div class="row">
+@if (Model.Any())
+{
+    
+    @foreach (var movie in Model)
+    {
 
-            <div class="col-4">
-                <a href="#">
-                    <img src="https://www.ixbt.com/img/n1/news/2023/3/3/4_large.png" width="250" height="250" class="img-fluid" alt="...">
+
+
+        <div class="card border-secondary mb-3 shadow-lg" style="max-width: 50rem;">
+
+            <div class="card-header bg-secondary bg-opacity-25 border-secondary">
+                <a class="text-black" href="#" style="text-decoration:none;">
+                    <h5 class="card-title">@movie.Name (@movie.ReleaseYear.Year)</h5>
                 </a>
             </div>
 
-            <div class="col-5">
-                <div>
-                    <label class="form-label">Год выпуска:</label>
-                    <label class="form-label"><strong>1995</strong></label>
+            <div class="card-body text-secondary bg-secondary bg-opacity-10">
+                <div class="row">
+
+                    <div class="col-4">
+                       @*  <a href="#">
+                            <img src="https://www.ixbt.com/img/n1/news/2023/3/3/4_large.png" width="250" height="250" class="img-fluid" alt="...">
+                        </a> *@
+                        <a class="#">
+                            @if (movie.PhotoUrl == "noimage.png")
+                            {
+                                <img src="~/images/@movie.PhotoUrl" width="250" height="250" class="img-fluid" alt="..." />
+                            }
+                            else
+                            {
+                                <img src="~/images/photos/@currentModel.ToLower()/@movie.PhotoUrl" width="250" height="250" class="img-fluid" alt="..." />
+                            }
+                        </a>
+                    </div>
+
+                    <div class="col-5">
+                        <div>
+                            <label class="form-label">Год выпуска:</label>
+                            <label class="form-label"><strong>@movie.ReleaseYear.Year</strong></label>
+                        </div>
+                        <div>
+                            <label class="form-label">Страна:</label>
+                            <label class="form-label"><strong>@movie.Country?.Name</strong></label>
+                        </div>
+                        <div>
+                            <label class="form-label">Жанр:</label>
+                            @if (movie.Genres.Any())
+                            {
+                                @foreach (var genre in movie.Genres)
+                                {
+                                    <label class="form-label"><strong>@genre.Name</strong></label>
+                                }
+                            }                                                  
+                        </div>
+                        <div>
+                            <label class="form-label">Продолжительность:</label>
+                            <label class="form-label"><strong>@movie.FilmDuration</strong></label>
+                        </div>
+                        <div>
+                            <label class="form-label">Режиссёр:</label>
+                            <label class="form-label"><strong>@movie.CurrentProducer?.LastName</strong></label>
+                        </div>
+                        <div>
+                            <label class="form-label">Актёры:</label>
+                            @if (movie.Actors.Any())
+                            {
+                                @foreach (var actor in movie.Actors)
+                                {
+                                    <label class="form-label"><strong>@actor.LastName</strong></label>
+                                }
+                            }
+                        </div>
+                        <div>
+                            <label class="form-label h6"><small>Часть фильма:</small></label>
+                            <label class="form-label h6"><strong><small>@movie.PartFilm</small></strong></label>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+
+                        <p>
+                            <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#desc-@movie.Id" aria-expanded="false" aria-controls="collapseWidthExample">
+                                Описание фильма
+                            </button>
+                        </p>
+
+
+                    </div>
+
                 </div>
+
                 <div>
-                    <label class="form-label">Страна:</label>
-                    <label class="form-label"><strong>США</strong></label>
+                    <div class="collapse" id="desc-@movie.Id">
+                        <div class="card card-body">
+                            @movie.Description
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-label">Жанр:</label>
-                    <label class="form-label"><strong>Комедия Семейный</strong></label>
-                </div>
-                <div>
-                    <label class="form-label">Продолжительность:</label>
-                    <label class="form-label"><strong>103 мин./01:43</strong></label>
-                </div>
-                <div>
-                    <label class="form-label">Режиссёр:</label>
-                    <label class="form-label"><strong>Паул макартни</strong></label>
-                </div>
-                <div>
-                    <label class="form-label">Актёры:</label>
-                    <label class="form-label"><strong>Джон, Викторыч, мыдисон</strong></label>
-                </div>
-                <div>
-                    <label class="form-label h6"><small>Часть фильма:</small></label>
-                    <label class="form-label h6"><strong><small>2</small></strong></label>
-                </div>
+
             </div>
 
-            <div class="col-3">
-
-                <p>
-                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-                        Описание фильма
-                    </button>
-                </p>
-
-
-            </div>
-
-        </div>
-
-        <div>
-            <div class="collapse" id="collapseWidthExample">
-                <div class="card card-body">
-                    Слава, земли, богатства – всё это пообещали лорду Гроу в том случае, если его дочь станет вечной вдовой павшего героя. Вот только Лавиния Гроу была не согласна всю оставшуюся жизнь носить чёрное. «А как же женихи и славная жизнь в высшем свете после замужества?» – капризно вопрошала она, и... любящий отец отважился на хитрость.
-                    Теперь мне, незаконнорожденной дочери лорда Гроу, суждено до конца дней прозябать в ветхом имении на краю империи. Однако подобная участь совсем не пугает, ведь статус вдовы развяжет мне руки: больше никаких смотрин, никакой угрозы замужества, а так же последующего разоблачения. Только свобода и дар, который поможет превратить отданные мне земли в цветущий край. Теперь главное – правильно разыграть свои карты, а так же, чтобы почивший муж… внезапно не “воскрес”.
+            <div class="card-footer bg-secondary bg-opacity-25 border-secondary">
+                <div class="row">
+                    <p class="col-2 bg-">Рейтинг :</p>
+                    <p class="col-2 px-0">@movie.Rating</p>
                 </div>
             </div>
         </div>
 
-    </div>
 
-    <div class="card-footer bg-secondary bg-opacity-25 border-secondary">
-        <div class="row">
-            <p class="col-2 bg-">Рейтинг :</p>
-            <p class="col-2 px-0">6.5</p>
-        </div>
+    }
+
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <partial name="Partial/PartialPageBars/_bottomBar" model="pagerModel" />
     </div>
 </div>
