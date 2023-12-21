@@ -25,22 +25,15 @@
     @foreach (var movie in Model)
     {
 
-        <div class="card border-secondary mb-3 shadow-sm">
-            <div class="card-header bg-secondary bg-opacity-25 border-secondary">
-                <a class="text-black" href="#" style="text-decoration:none;">
-                    <div class="row">
-                        <div class="col-11">
-                            <h5 class="card-title">@movie.Name (@movie.ReleaseYear.Year)</h5>
-                        </div>
-                        <div class="col-1">
-                            <h5 class="card-title">@movie.Rating</h5>
-                        </div>
-                    </div>
-                </a>
+        <div class="row border border-light">
+            <div class="col-5 bg-secondary bg-opacity-10">
+                <p class="card-title">@movie.Name (@movie.ReleaseYear.Year)</p>
             </div>
+            <div class="col-1 bg-secondary bg-opacity-25">
+                <p class="card-title">@movie.Rating</p>
+            </div>
+            <div class="col-6"></div>
         </div>
-
-
     }
 }
 
