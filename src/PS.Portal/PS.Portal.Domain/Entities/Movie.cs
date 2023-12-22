@@ -12,7 +12,7 @@ namespace PS.Portal.Domain.Entities
         public string Name { get; set; } = null!;
 
         [Display(Name = "Описание")]
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
 
         [Range(0, 10)]
         [Display(Name = "Рейтинг")]
